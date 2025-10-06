@@ -1,0 +1,10 @@
+{
+  "name": "todo-list",
+  "version": "dev. 25w41",
+  "description": "Never forget your tasks again (except maybe laundry).",
+  "scripts": {
+    "types": "cd client && bun tsc && cd ../server && bun tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
