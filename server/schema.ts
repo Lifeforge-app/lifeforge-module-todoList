@@ -397,7 +397,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_Wqd9',
+          id: '_clone_3bF3',
           max: 0,
           min: 0,
           name: 'name',
@@ -411,7 +411,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_cSgJ',
+          id: '_clone_4h6U',
           max: 0,
           min: 0,
           name: 'color',
@@ -425,7 +425,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_bFnP',
+          id: '_clone_M2A9',
           max: 0,
           min: 0,
           name: 'icon',
@@ -487,7 +487,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_gjOr',
+          id: '_clone_lxte',
           max: 0,
           min: 0,
           name: 'name',
@@ -550,7 +550,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_QObX',
+          id: '_clone_2fif',
           max: 0,
           min: 0,
           name: 'name',
@@ -564,7 +564,7 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_5N6s',
+          id: '_clone_DGM7',
           max: 0,
           min: 0,
           name: 'color',
