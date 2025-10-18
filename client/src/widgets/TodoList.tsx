@@ -11,7 +11,7 @@ import {
   WithQuery
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate } from 'shared'
 import type { WidgetConfig } from 'shared'
 
 function TodoListContent() {
@@ -64,7 +64,7 @@ export default function TodoList() {
       componentBesideTitle={
         <Button
           as={Link}
-          className="mr-3 p-2!"
+          className="p-2! mr-3"
           icon="tabler:chevron-right"
           to="/todo-list"
           variant="plain"
