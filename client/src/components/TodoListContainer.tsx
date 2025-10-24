@@ -101,14 +101,6 @@ function TodoListContainer() {
                 <TaskList entries={filteredEntries} />
               ) : (
                 <EmptyStateScreen
-                  CTAButtonProps={{
-                    children: 'new',
-                    icon: 'tabler:plus',
-                    onClick: () => {
-                      setSelectedTask(null)
-                      setModifyTaskWindowOpenType('create')
-                    }
-                  }}
                   icon="tabler:article-off"
                   name="tasks"
                   namespace="apps.todoList"
