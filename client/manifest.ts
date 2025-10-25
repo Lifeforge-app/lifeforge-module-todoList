@@ -8,5 +8,6 @@ export default {
     'todo-list': lazy(() => import('@'))
   },
   hasAI: true,
-  category: '01.Productivity'
+  requiredAPIKeys: ['groq'],
+  category: 'Productivity'
 } satisfies ModuleConfig
