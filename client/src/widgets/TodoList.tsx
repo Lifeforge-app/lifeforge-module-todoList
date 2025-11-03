@@ -47,7 +47,7 @@ function TodoListContent() {
               }}
               icon="tabler:calendar-smile"
               name="today"
-              namespace="apps.dashboard"
+              namespace="apps.todoList"
               tKey="widgets.todoList"
             />
           )}
