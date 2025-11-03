@@ -1,6 +1,18 @@
 {
   "title": "To-Do List",
   "description": "Never forget your tasks again (except maybe laundry).",
+  "widgets": {
+    "todoList": {
+      "title": "To-Do List",
+      "description": "Organize and track your tasks.",
+      "empty": {
+        "today": {
+          "title": "No To-Do Items Today",
+          "description": "You have no to-do items today."
+        }
+      }
+    }
+  },
   "header": {
     "allTasks": "All Tasks",
     "todaysTasks": "Today's Tasks",

@@ -1,6 +1,18 @@
 {
   "title": "待辦清單",
   "description": "再也不會忘記待辦事項（除了可能是洗衣服）。",
+  "widgets": {
+    "todoList": {
+      "title": "待辦清單",
+      "description": "組織並追蹤您的任務。",
+      "empty": {
+        "today": {
+          "title": "今日沒有待辦事項",
+          "description": "您今天沒有任何待辦事項。"
+        }
+      }
+    }
+  },
   "header": {
     "allTasks": "所有任務",
     "todaysTasks": "今天的任務",
