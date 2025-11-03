@@ -71,6 +71,7 @@ export default function TodoList() {
         />
       }
       icon="tabler:clipboard-list"
+      namespace="apps.todoList"
       title="Todo List"
     >
       <TodoListProvider>
