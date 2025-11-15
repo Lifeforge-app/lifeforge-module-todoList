@@ -5,7 +5,7 @@ export default {
   name: 'Todo List',
   icon: 'tabler:list-check',
   routes: {
-    'todo-list': lazy(() => import('@'))
+    '/': lazy(() => import('@'))
   },
   hasAI: true,
   requiredAPIKeys: ['groq'],
