@@ -78,7 +78,12 @@ const FILTERS: Record<string, FilterType<'todo_list__entries'>> = {
 
 const getStatusCounter = forgeController
   .query()
-  .description('Get status counter for todo entries')
+  .description({
+    en: 'Get todo counts by status',
+    ms: 'Dapatkan kiraan tugasan mengikut status',
+    'zh-CN': '按状态获取任务数量',
+    'zh-TW': '按狀態獲取任務數量'
+  })
   .input({})
   .callback(async ({ pb }) => {
     const counters = {
@@ -105,7 +110,12 @@ const getStatusCounter = forgeController
 
 const getById = forgeController
   .query()
-  .description('Get todo entry by ID')
+  .description({
+    en: 'Get a specific todo by ID',
+    ms: 'Dapatkan tugasan tertentu mengikut ID',
+    'zh-CN': '根据 ID 获取特定任务',
+    'zh-TW': '根據 ID 獲取特定任務'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -120,7 +130,12 @@ const getById = forgeController
 
 const list = forgeController
   .query()
-  .description('Get all todo entries with optional filters')
+  .description({
+    en: 'Get todos with filters',
+    ms: 'Dapatkan tugasan dengan penapis',
+    'zh-CN': '获取带筛选的任务',
+    'zh-TW': '獲取帶篩選的任務'
+  })
   .input({
     query: z.object({
       list: z.string().optional(),
@@ -156,7 +171,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new todo entry')
+  .description({
+    en: 'Create a new todo',
+    ms: 'Cipta tugasan baharu',
+    'zh-CN': '创建新任务',
+    'zh-TW': '創建新任務'
+  })
   .input({
     body: SCHEMAS.todo_list.entries.schema.omit({
       completed_at: true,
@@ -186,7 +206,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update an existing todo entry')
+  .description({
+    en: 'Update todo details',
+    ms: 'Kemas kini butiran tugasan',
+    'zh-CN': '更新任务详情',
+    'zh-TW': '更新任務詳情'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -222,7 +247,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete a todo entry')
+  .description({
+    en: 'Delete a todo',
+    ms: 'Padam tugasan',
+    'zh-CN': '删除任务',
+    'zh-TW': '刪除任務'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -238,7 +268,12 @@ const remove = forgeController
 
 const toggleEntry = forgeController
   .mutation()
-  .description('Toggle completion status of a todo entry')
+  .description({
+    en: 'Toggle todo completion status',
+    ms: 'Togol status penyiapan tugasan',
+    'zh-CN': '切换任务完成状态',
+    'zh-TW': '切換任務完成狀態'
+  })
   .input({
     query: z.object({
       id: z.string()

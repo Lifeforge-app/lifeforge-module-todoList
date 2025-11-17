@@ -4,7 +4,12 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description('Get all todo lists')
+  .description({
+    en: 'Get all todo lists',
+    ms: 'Dapatkan semua senarai tugasan',
+    'zh-CN': '获取所有任务列表',
+    'zh-TW': '獲取所有任務清單'
+  })
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
@@ -15,7 +20,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new todo list')
+  .description({
+    en: 'Create a new todo list',
+    ms: 'Cipta senarai tugasan baharu',
+    'zh-CN': '创建新任务列表',
+    'zh-TW': '創建新任務清單'
+  })
   .input({
     body: SCHEMAS.todo_list.lists.schema
   })
@@ -26,7 +36,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update an existing todo list')
+  .description({
+    en: 'Update todo list details',
+    ms: 'Kemas kini butiran senarai tugasan',
+    'zh-CN': '更新任务列表详情',
+    'zh-TW': '更新任務清單詳情'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -42,7 +57,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete a todo list')
+  .description({
+    en: 'Delete a todo list',
+    ms: 'Padam senarai tugasan',
+    'zh-CN': '删除任务列表',
+    'zh-TW': '刪除任務清單'
+  })
   .input({
     query: z.object({
       id: z.string()
