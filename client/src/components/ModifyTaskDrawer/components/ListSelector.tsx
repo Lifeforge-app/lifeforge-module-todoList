@@ -31,7 +31,7 @@ function ListSelector({
       icon="tabler:list"
       label="list"
       namespace="apps.todoList"
-      setValue={setList}
+      onChange={setList}
       value={list ?? ''}
     >
       <ListboxOption color="lightgray" label="None" value="" />

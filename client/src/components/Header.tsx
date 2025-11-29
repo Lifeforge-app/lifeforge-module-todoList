@@ -1,5 +1,5 @@
 import { useTodoListContext } from '@/providers/TodoListProvider'
-import { Button, HeaderFilter, useModuleSidebarState } from 'lifeforge-ui'
+import { Button, TagsFilter, useModuleSidebarState } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
 
 function Header() {
@@ -48,8 +48,8 @@ function Header() {
           )}`.trim()}{' '}
           <span className="text-bg-500 text-base">({entries.length})</span>
         </h1>
-        <HeaderFilter
-          items={{
+        <TagsFilter
+          availableFilters={{
             list: {
               data: lists,
               isColored: true
@@ -65,15 +65,15 @@ function Header() {
               isColored: true
             }
           }}
-          setValues={{
-            tag: setFilter.bind(null, 'tag'),
-            list: setFilter.bind(null, 'list'),
-            priority: setFilter.bind(null, 'priority')
-          }}
           values={{
             tag: filter.tag,
             list: filter.list,
             priority: filter.priority
+          }}
+          onChange={{
+            tag: setFilter.bind(null, 'tag'),
+            list: setFilter.bind(null, 'list'),
+            priority: setFilter.bind(null, 'priority')
           }}
         />
       </div>

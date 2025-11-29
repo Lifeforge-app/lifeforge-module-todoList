@@ -21,7 +21,6 @@ function TaskStatusList() {
                 filter.status === name.toLowerCase() ||
                 (name === 'All' && !filter.status)
               }
-              autoActive={false}
               icon={icon}
               label={name}
               namespace="apps.todoList"

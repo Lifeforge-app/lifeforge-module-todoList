@@ -32,7 +32,7 @@ function PrioritySelector({
       icon="tabler:alert-triangle"
       label="priority"
       namespace="apps.todoList"
-      setValue={setPriority}
+      onChange={setPriority}
       value={priority}
     >
       <ListboxOption key={'none'} color="lightgray" label="None" value="" />

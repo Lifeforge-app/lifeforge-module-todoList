@@ -224,8 +224,8 @@ function ModifyTaskDrawer() {
               label="Summary"
               namespace="apps.todoList"
               placeholder="An urgent task"
-              setValue={setSummary}
               value={summary}
+              onChange={setSummary}
             />
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center gap-2">
@@ -233,7 +233,7 @@ function ModifyTaskDrawer() {
                 <span className="text-lg">{t('inputs.hasTime')}</span>
               </div>
               <Switch
-                checked={dueDateHasTime}
+                value={dueDateHasTime}
                 onChange={() => {
                   setDueDateHasTime(!dueDateHasTime)
                   if (dueDate)
@@ -248,8 +248,8 @@ function ModifyTaskDrawer() {
               icon="tabler:calendar"
               label="Due date"
               namespace="apps.todoList"
-              setValue={setDueDate}
               value={dueDate}
+              onChange={setDueDate}
             />
             <PrioritySelector priority={priority} setPriority={setPriority} />
             <ListSelector list={list} setList={setList} />
@@ -259,8 +259,8 @@ function ModifyTaskDrawer() {
               label="Notes"
               namespace="apps.todoList"
               placeholder="Add notes here..."
-              setValue={setNotes}
               value={notes}
+              onChange={setNotes}
             />
           </div>
           <div className="mt-12 flex flex-1 flex-col-reverse items-end gap-2 sm:flex-row">

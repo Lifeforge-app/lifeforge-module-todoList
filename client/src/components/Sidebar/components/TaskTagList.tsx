@@ -23,8 +23,10 @@ function TaskTagList() {
   return (
     <>
       <SidebarTitle
-        actionButtonIcon="tabler:plus"
-        actionButtonOnClick={handleCreateTag}
+        actionButton={{
+          icon: 'tabler:plus',
+          onClick: handleCreateTag
+        }}
         label="Tags"
         namespace="apps.todoList"
       />

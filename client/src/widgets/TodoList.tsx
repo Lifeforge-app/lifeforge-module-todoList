@@ -5,9 +5,9 @@ import {
 } from '@/providers/TodoListProvider'
 import {
   Button,
-  DashboardItem,
   EmptyStateScreen,
   Scrollbar,
+  Widget,
   WithQuery
 } from 'lifeforge-ui'
 import { useTranslation } from 'react-i18next'
@@ -46,9 +46,11 @@ function TodoListContent() {
                 }
               }}
               icon="tabler:calendar-smile"
-              name="today"
-              namespace="apps.todoList"
-              tKey="widgets.todoList"
+              message={{
+                id: 'today',
+                namespace: 'apps.todoList',
+                tKey: 'widgets.todoList'
+              }}
             />
           )}
         </ul>
@@ -59,17 +61,17 @@ function TodoListContent() {
 
 export default function TodoList() {
   return (
-    <DashboardItem
-      className="pr-3"
-      componentBesideTitle={
+    <Widget
+      actionComponent={
         <Button
           as={Link}
-          className="p-2! mr-3"
+          className="mr-3 p-2!"
           icon="tabler:chevron-right"
           to="/todo-list"
           variant="plain"
         />
       }
+      className="pr-3"
       icon="tabler:clipboard-list"
       namespace="apps.todoList"
       title="Todo List"
@@ -79,7 +81,7 @@ export default function TodoList() {
           <TodoListContent />
         </Scrollbar>
       </TodoListProvider>
-    </DashboardItem>
+    </Widget>
   )
 }
 

@@ -27,7 +27,7 @@ function TagsSelector({
       icon="tabler:tags"
       label="tags"
       namespace="apps.todoList"
-      setValue={setTags}
+      onChange={setTags}
       value={tags}
     >
       {tagsList.map(({ name, id }, i) => (

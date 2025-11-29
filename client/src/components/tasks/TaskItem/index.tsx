@@ -5,7 +5,7 @@ import {
 import forgeAPI from '@/utils/forgeAPI'
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Checkbox, ItemWrapper } from 'lifeforge-ui'
+import { Checkbox, Card } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 
 import TaskDueDate from './components/TaskDueDate'
@@ -50,7 +50,7 @@ function TaskItem({
   }
 
   return (
-    <ItemWrapper
+    <Card
       key={entry.id}
       isInteractive
       as="li"
@@ -90,7 +90,7 @@ function TaskItem({
           }
         }}
       />
-    </ItemWrapper>
+    </Card>
   )
 }
 

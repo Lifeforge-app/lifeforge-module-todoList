@@ -23,8 +23,10 @@ function TaskPriorityList() {
   return (
     <>
       <SidebarTitle
-        actionButtonIcon="tabler:plus"
-        actionButtonOnClick={handleCreatePriority}
+        actionButton={{
+          icon: 'tabler:plus',
+          onClick: handleCreatePriority
+        }}
         label="priorities"
         namespace="apps.todoList"
       />
