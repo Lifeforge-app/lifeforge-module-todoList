@@ -51,15 +51,25 @@ function Header() {
         <TagsFilter
           availableFilters={{
             list: {
-              data: lists,
-              isColored: true
+              data: lists.map(e => ({
+                id: e.id,
+                label: e.name,
+                icon: 'tabler:list',
+                color: e.color
+              }))
             },
             tag: {
-              data: tags.map(e => ({ ...e, icon: 'tabler:tag' }))
+              data: tags.map(e => ({
+                label: e.name,
+                id: e.id,
+                icon: 'tabler:tag'
+              }))
             },
             priority: {
               data: priorities.map(e => ({
-                ...e,
+                id: e.id,
+                label: e.name,
+                color: e.color,
                 icon: 'tabler:adjustments'
               })),
               isColored: true
