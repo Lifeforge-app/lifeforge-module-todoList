@@ -3,7 +3,6 @@ import {
   useTodoListContext
 } from '@/providers/TodoListProvider'
 import forgeAPI from '@/utils/forgeAPI'
-import { useDebounce } from '@uidotdev/usehooks'
 import { EmptyStateScreen, FAB, SearchInput, WithQuery } from 'lifeforge-ui'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -21,8 +20,6 @@ function TodoListContainer() {
     useTodoListContext()
 
   const [searchQuery, setSearchQuery] = useState('')
-
-  const debouncedSearchQuery = useDebounce(searchQuery.trim(), 300)
 
   const [filteredEntries, setFilteredEntries] = useState<TodoListEntry[]>([])
 
@@ -65,20 +62,20 @@ function TodoListContainer() {
   }, [searchParams, entriesQuery.data])
 
   useEffect(() => {
-    if (debouncedSearchQuery.trim() === '') {
+    if (searchQuery.trim() === '') {
       setFilteredEntries(entriesQuery.data ?? [])
 
       return
     }
 
-    const lowerCaseQuery = debouncedSearchQuery.toLowerCase()
+    const lowerCaseQuery = searchQuery.toLowerCase()
 
     const filtered = (entriesQuery.data ?? []).filter(entry =>
       entry.summary.toLowerCase().includes(lowerCaseQuery)
     )
 
     setFilteredEntries(filtered)
-  }, [debouncedSearchQuery, entriesQuery.data])
+  }, [searchQuery, entriesQuery.data])
 
   return (
     <>
@@ -89,6 +86,7 @@ function TodoListContainer() {
           <div className="w-full px-4">
             <SearchInput
               className="mt-4"
+              debounceMs={300}
               namespace="apps.todoList"
               searchTarget="task"
               onChange={setSearchQuery}
