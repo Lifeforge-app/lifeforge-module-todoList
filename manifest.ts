@@ -8,6 +8,5 @@ export default {
     '/': lazy(() => import('@'))
   },
   hasAI: true,
-  requiredAPIKeys: ['groq'],
   category: 'Productivity'
 } satisfies ModuleConfig

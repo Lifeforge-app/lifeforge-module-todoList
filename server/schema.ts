@@ -8,7 +8,6 @@ const todoListSchemas = {
       color: z.string()
     }),
     raw: {
-      id: '327ciwg4kdb3eih',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -20,7 +19,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -34,7 +32,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'y8zommga',
           max: 0,
           min: 0,
           name: 'name',
@@ -48,7 +45,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '8cakr2ge',
           max: 0,
           min: 0,
           name: 'icon',
@@ -62,7 +58,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'fc3qdmd7',
           max: 0,
           min: 0,
           name: 'color',
@@ -85,7 +80,6 @@ const todoListSchemas = {
       name: z.string()
     }),
     raw: {
-      id: 'x117ii0br9fqehr',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -97,7 +91,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -111,7 +104,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'stfzdnfd',
           max: 0,
           min: 0,
           name: 'name',
@@ -144,7 +136,6 @@ const todoListSchemas = {
       updated: z.string()
     }),
     raw: {
-      id: 'w35txwos02cf2nm',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -156,7 +147,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -170,7 +160,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'dfvcxey7',
           max: 0,
           min: 0,
           name: 'summary',
@@ -184,7 +173,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'gcll6ukh',
           max: 0,
           min: 0,
           name: 'notes',
@@ -197,7 +185,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'f8gi2ylo',
           max: '',
           min: '',
           name: 'due_date',
@@ -208,7 +195,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'bool2459043662',
           name: 'due_date_has_time',
           presentable: false,
           required: false,
@@ -217,9 +203,8 @@ const todoListSchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: '327ciwg4kdb3eih',
+          collectionId: 'todo_list__lists',
           hidden: false,
-          id: '5fdwchzj',
           maxSelect: 1,
           minSelect: 0,
           name: 'list',
@@ -230,9 +215,8 @@ const todoListSchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: 'x117ii0br9fqehr',
+          collectionId: 'todo_list__tags',
           hidden: false,
-          id: 'df4ncdna',
           maxSelect: 2147483647,
           minSelect: 0,
           name: 'tags',
@@ -243,9 +227,8 @@ const todoListSchemas = {
         },
         {
           cascadeDelete: false,
-          collectionId: 'zwgj5r0vi6xo5ma',
+          collectionId: 'todo_list__priorities',
           hidden: false,
-          id: 'tonpixw6',
           maxSelect: 1,
           minSelect: 0,
           name: 'priority',
@@ -256,7 +239,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'jkco5dii',
           name: 'done',
           presentable: false,
           required: false,
@@ -265,7 +247,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'jqooidhl',
           max: '',
           min: '',
           name: 'completed_at',
@@ -276,7 +257,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -286,7 +266,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate3332085495',
           name: 'updated',
           onCreate: true,
           onUpdate: true,
@@ -305,7 +284,6 @@ const todoListSchemas = {
       color: z.string()
     }),
     raw: {
-      id: 'zwgj5r0vi6xo5ma',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -317,7 +295,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -331,7 +308,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 's5kc4goc',
           max: 0,
           min: 0,
           name: 'name',
@@ -345,7 +321,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'i178pi1i',
           max: 0,
           min: 0,
           name: 'color',
@@ -371,7 +346,6 @@ const todoListSchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_294728180',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -383,7 +357,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -397,7 +370,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_kmVv',
           max: 0,
           min: 0,
           name: 'name',
@@ -411,7 +383,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_oStz',
           max: 0,
           min: 0,
           name: 'color',
@@ -425,7 +396,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_iaag',
           max: 0,
           min: 0,
           name: 'icon',
@@ -438,7 +408,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -461,7 +430,6 @@ const todoListSchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_3656224340',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -473,7 +441,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -487,7 +454,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_E1tv',
           max: 0,
           min: 0,
           name: 'name',
@@ -500,7 +466,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -524,7 +489,6 @@ const todoListSchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_13199116',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -536,7 +500,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -550,7 +513,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_xmNc',
           max: 0,
           min: 0,
           name: 'name',
@@ -564,7 +526,6 @@ const todoListSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_AwWz',
           max: 0,
           min: 0,
           name: 'color',
@@ -577,7 +538,6 @@ const todoListSchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
