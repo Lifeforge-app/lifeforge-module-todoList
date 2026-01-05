@@ -1,6 +1,7 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
@@ -12,7 +13,7 @@ const list = forgeController
   })
   .input({})
   .callback(({ pb }) =>
-    pb.getFullList.collection('todo_list__priorities_aggregated').execute()
+    pb.getFullList.collection('todoList__priorities_aggregated').execute()
   )
 
 const create = forgeController
@@ -24,11 +25,11 @@ const create = forgeController
     'zh-TW': '創建新優先級'
   })
   .input({
-    body: SCHEMAS.todo_list.priorities.schema
+    body: SCHEMAS.todoList.priorities.schema
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('todo_list__priorities').data(body).execute()
+    pb.create.collection('todoList__priorities').data(body).execute()
   )
 
 const update = forgeController
@@ -43,13 +44,13 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.todo_list.priorities.schema
+    body: SCHEMAS.todoList.priorities.schema
   })
   .existenceCheck('query', {
-    id: 'todo_list__priorities'
+    id: 'todoList__priorities'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('todo_list__priorities').id(id).data(body).execute()
+    pb.update.collection('todoList__priorities').id(id).data(body).execute()
   )
 
 const remove = forgeController
@@ -66,11 +67,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__priorities'
+    id: 'todoList__priorities'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('todo_list__priorities').id(id).execute()
+    pb.delete.collection('todoList__priorities').id(id).execute()
   )
 
 export default forgeRouter({

@@ -1,6 +1,7 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
@@ -13,7 +14,7 @@ const list = forgeController
   .input({})
   .callback(({ pb }) =>
     pb.getFullList
-      .collection('todo_list__lists_aggregated')
+      .collection('todoList__lists_aggregated')
       .sort(['name'])
       .execute()
   )
@@ -27,11 +28,11 @@ const create = forgeController
     'zh-TW': '創建新任務清單'
   })
   .input({
-    body: SCHEMAS.todo_list.lists.schema
+    body: SCHEMAS.todoList.lists.schema
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('todo_list__lists').data(body).execute()
+    pb.create.collection('todoList__lists').data(body).execute()
   )
 
 const update = forgeController
@@ -46,13 +47,13 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.todo_list.lists.schema
+    body: SCHEMAS.todoList.lists.schema
   })
   .existenceCheck('query', {
-    id: 'todo_list__lists'
+    id: 'todoList__lists'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('todo_list__lists').id(id).data(body).execute()
+    pb.update.collection('todoList__lists').id(id).data(body).execute()
   )
 
 const remove = forgeController
@@ -69,11 +70,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__lists'
+    id: 'todoList__lists'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('todo_list__lists').id(id).execute()
+    pb.delete.collection('todoList__lists').id(id).execute()
   )
 
 export default forgeRouter({

@@ -1,10 +1,11 @@
-import { FilterType } from '@functions/database/PBService/typescript/pb_service'
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import moment from 'moment'
 import z from 'zod'
 
-const FILTERS: Record<string, FilterType<'todo_list__entries'>> = {
+import { FilterType } from '@functions/database/PBService/typescript/pb_service'
+import { forgeController, forgeRouter } from '@functions/routes'
+
+const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
   all: [
     {
       field: 'done',
@@ -96,7 +97,7 @@ const getStatusCounter = forgeController
 
     for (const type of Object.keys(FILTERS) as (keyof typeof FILTERS)[]) {
       const { totalItems } = await pb.getList
-        .collection('todo_list__entries')
+        .collection('todoList__entries')
         .page(1)
         .perPage(1)
         .filter(FILTERS[type])
@@ -122,10 +123,10 @@ const getById = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__entries'
+    id: 'todoList__entries'
   })
   .callback(({ pb, query: { id } }) =>
-    pb.getOne.collection('todo_list__entries').id(id).execute()
+    pb.getOne.collection('todoList__entries').id(id).execute()
   )
 
 const list = forgeController
@@ -146,9 +147,9 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    tag: '[todo_list__tags]',
-    list: '[todo_list__lists]',
-    priority: '[todo_list__priorities]'
+    tag: '[todoList__tags]',
+    list: '[todoList__lists]',
+    priority: '[todoList__priorities]'
   })
   .callback(async ({ pb, query: { status, tag, list, priority } }) => {
     const finalFilter = [
@@ -163,7 +164,7 @@ const list = forgeController
     ]
 
     return await pb.getFullList
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .filter(finalFilter)
       .sort(['-created'])
       .execute()
@@ -178,7 +179,7 @@ const create = forgeController
     'zh-TW': '創建新任務'
   })
   .input({
-    body: SCHEMAS.todo_list.entries.schema.omit({
+    body: SCHEMAS.todoList.entries.schema.omit({
       completed_at: true,
       done: true,
       created: true,
@@ -186,14 +187,14 @@ const create = forgeController
     })
   })
   .existenceCheck('body', {
-    list: '[todo_list__lists]',
-    priority: '[todo_list__priorities]',
-    tags: '[todo_list__tags]'
+    list: '[todoList__lists]',
+    priority: '[todoList__priorities]',
+    tags: '[todoList__tags]'
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
     pb.create
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .data({
         ...body,
         due_date:
@@ -216,7 +217,7 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.todo_list.entries.schema.omit({
+    body: SCHEMAS.todoList.entries.schema.omit({
       completed_at: true,
       done: true,
       created: true,
@@ -224,16 +225,16 @@ const update = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__entries'
+    id: 'todoList__entries'
   })
   .existenceCheck('body', {
-    list: '[todo_list__lists]',
-    priority: '[todo_list__priorities]',
-    tags: '[todo_list__tags]'
+    list: '[todoList__lists]',
+    priority: '[todoList__priorities]',
+    tags: '[todoList__tags]'
   })
   .callback(({ pb, query: { id }, body }) =>
     pb.update
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .id(id)
       .data({
         ...body,
@@ -259,11 +260,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__entries'
+    id: 'todoList__entries'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('todo_list__entries').id(id).execute()
+    pb.delete.collection('todoList__entries').id(id).execute()
   )
 
 const toggleEntry = forgeController
@@ -280,16 +281,16 @@ const toggleEntry = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todo_list__entries'
+    id: 'todoList__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
     const entry = await pb.getOne
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .id(id)
       .execute()
 
     return await pb.update
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .id(id)
       .data({
         done: !entry.done,

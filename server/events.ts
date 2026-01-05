@@ -1,5 +1,6 @@
-import { PBService } from "@functions/database"
-import moment from "moment"
+import moment from 'moment'
+
+import { PBService } from '@functions/database'
 
 export default async function getEvents({
   pb,
@@ -12,7 +13,7 @@ export default async function getEvents({
 }) {
   return (
     await pb.getFullList
-      .collection('todo_list__entries')
+      .collection('todoList__entries')
       .filter([
         { field: 'due_date', operator: '>=', value: start },
         { field: 'due_date', operator: '<=', value: end }
