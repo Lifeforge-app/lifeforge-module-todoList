@@ -1,14 +1,15 @@
-import ModifyPriorityModal from '@/modals/ModifyPriorityModal'
-import { useTodoListContext } from '@/providers/TodoListProvider'
 import { SidebarTitle, WithQuery } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import ModifyPriorityModal from '@/modals/ModifyPriorityModal'
+import { useTodoListContext } from '@/providers/TodoListProvider'
+
 import TaskPriorityListItem from './TaskPriorityListItem'
 
 function TaskPriorityList() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.todoList')
 

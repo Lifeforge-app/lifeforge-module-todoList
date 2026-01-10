@@ -1,9 +1,3 @@
-import ModifyTagModal from '@/modals/ModifyTagModal'
-import {
-  type TodoListTag,
-  useTodoListContext
-} from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ConfirmationModal,
@@ -14,10 +8,17 @@ import {
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 
+import ModifyTagModal from '@/modals/ModifyTagModal'
+import {
+  type TodoListTag,
+  useTodoListContext
+} from '@/providers/TodoListProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 function TaskTagListItem({ item }: { item: TodoListTag }) {
   const queryClient = useQueryClient()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { filter, setFilter } = useTodoListContext()
 

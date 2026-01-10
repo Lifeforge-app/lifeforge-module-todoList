@@ -1,5 +1,3 @@
-import { useTodoListContext } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -21,12 +19,15 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { usePromiseLoading } from 'shared'
 
+import { useTodoListContext } from '@/providers/TodoListProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 import ListSelector from './components/ListSelector'
 import PrioritySelector from './components/PrioritySelector'
 import TagsSelector from './components/TagsSelector'
 
 function ModifyTaskDrawer() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const queryClient = useQueryClient()
 

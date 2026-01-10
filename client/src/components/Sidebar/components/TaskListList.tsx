@@ -1,14 +1,15 @@
-import ModifyListModal from '@/modals/ModifyListModal'
-import { useTodoListContext } from '@/providers/TodoListProvider'
 import { SidebarTitle, WithQuery } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import ModifyListModal from '@/modals/ModifyListModal'
+import { useTodoListContext } from '@/providers/TodoListProvider'
+
 import TaskListListItem from './TaskListListItem'
 
 function TaskListList() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.todoList')
 

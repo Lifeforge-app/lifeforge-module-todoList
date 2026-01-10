@@ -1,9 +1,3 @@
-import ModifyPriorityModal from '@/modals/ModifyPriorityModal'
-import {
-  type TodoListPriority,
-  useTodoListContext
-} from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ConfirmationModal,
@@ -14,22 +8,29 @@ import {
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 
-function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
-  const queryClient = useQueryClient()
+import ModifyListModal from '@/modals/ModifyListModal'
+import {
+  type TodoListList,
+  useTodoListContext
+} from '@/providers/TodoListProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
-  const open = useModalStore(state => state.open)
+function TaskListListItem({ item }: { item: TodoListList }) {
+  const queryClient = useQueryClient()
 
   const { filter, setFilter } = useTodoListContext()
 
-  const handleUpdatePriority = useCallback(() => {
-    open(ModifyPriorityModal, {
+  const { open } = useModalStore()
+
+  const handleUpdateList = useCallback(() => {
+    open(ModifyListModal, {
       type: 'update',
       initialData: item
     })
   }, [item])
 
   const deleteMutation = useMutation(
-    forgeAPI.todoList.priorities.remove
+    forgeAPI.todoList.lists.remove
       .input({
         id: item.id
       })
@@ -37,22 +38,22 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['todoList'] })
 
-          if (item.id === filter.priority) {
-            setFilter('priority', null)
+          if (filter.list === item.id) {
+            setFilter('list', null)
           }
         },
         onError: () => {
           toast.error(
-            'An error occurred while deleting the priority. Please try again later.'
+            'An error occurred while deleting the list. Please try again later.'
           )
         }
       })
   )
 
-  const handleDeletePriority = useCallback(() => {
+  const handleDeleteList = useCallback(() => {
     open(ConfirmationModal, {
-      title: 'Delete Priority',
-      description: 'Are you sure you want to delete this priority?',
+      title: 'Delete List',
+      description: 'Are you sure you want to delete this list?',
       confirmationButton: 'delete',
       onConfirm: async () => {
         await deleteMutation.mutateAsync({})
@@ -62,33 +63,34 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
 
   return (
     <SidebarItem
-      active={filter.priority === item.id}
+      active={filter.list === item.id}
       contextMenuItems={
         <>
           <ContextMenuItem
             icon="tabler:pencil"
             label="Edit"
-            onClick={handleUpdatePriority}
+            onClick={handleUpdateList}
           />
           <ContextMenuItem
             dangerous
             icon="tabler:trash"
             label="Delete"
-            onClick={handleDeletePriority}
+            onClick={handleDeleteList}
           />
         </>
       }
+      icon={item.icon}
       label={item.name}
       number={item.amount}
       sideStripColor={item.color}
       onCancelButtonClick={() => {
-        setFilter('priority', null)
+        setFilter('list', null)
       }}
       onClick={() => {
-        setFilter('priority', item.id)
+        setFilter('list', item.id)
       }}
     />
   )
 }
 
-export default TaskPriorityListItem
+export default TaskListListItem

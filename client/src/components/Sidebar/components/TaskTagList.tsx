@@ -1,14 +1,15 @@
-import ModifyTagModal from '@/modals/ModifyTagModal'
-import { useTodoListContext } from '@/providers/TodoListProvider'
 import { SidebarTitle, WithQuery } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import ModifyTagModal from '@/modals/ModifyTagModal'
+import { useTodoListContext } from '@/providers/TodoListProvider'
+
 import TaskTagListItem from './TaskTagListItem'
 
 function TaskTagList() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.todoList')
 
