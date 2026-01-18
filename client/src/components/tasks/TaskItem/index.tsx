@@ -1,12 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query'
+import clsx from 'clsx'
+import { Card, Checkbox } from 'lifeforge-ui'
+import { toast } from 'react-toastify'
+
 import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
 import forgeAPI from '@/utils/forgeAPI'
-import { useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
-import { Checkbox, Card } from 'lifeforge-ui'
-import { toast } from 'react-toastify'
 
 import TaskDueDate from './components/TaskDueDate'
 import TaskHeader from './components/TaskHeader'
@@ -34,7 +35,7 @@ function TaskItem({
 
   async function toggleTaskCompletion() {
     try {
-      await forgeAPI.todoList.entries.toggleEntry
+      await forgeAPI.entries.toggleEntry
         .input({
           id: entry.id
         })

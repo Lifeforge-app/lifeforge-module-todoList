@@ -1,11 +1,13 @@
-import { SCHEMAS } from '@schema'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import z from 'zod'
 
-import { FilterType } from '@functions/database/PBService/typescript/pb_service'
-import { forgeController, forgeRouter } from '@functions/routes'
+import forge from '../forge'
+import todoListSchemas from '../schema'
 
-const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
+dayjs.extend(utc)
+
+const FILTERS: Record<string, any> = {
   all: [
     {
       field: 'done',
@@ -22,12 +24,12 @@ const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
     {
       field: 'due_date',
       operator: '>=',
-      value: moment().startOf('day').utc().format('YYYY-MM-DD HH:mm:ss')
+      value: dayjs().startOf('day').utc().format('YYYY-MM-DD HH:mm:ss')
     },
     {
       field: 'due_date',
       operator: '<=',
-      value: moment()
+      value: dayjs()
         .endOf('day')
         .utc()
         .add(1, 'second')
@@ -48,7 +50,7 @@ const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
     {
       field: 'due_date',
       operator: '>=',
-      value: moment().utc().format('YYYY-MM-DD HH:mm:ss')
+      value: dayjs().utc().format('YYYY-MM-DD HH:mm:ss')
     }
   ],
   overdue: [
@@ -65,7 +67,7 @@ const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
     {
       field: 'due_date',
       operator: '<',
-      value: moment().utc().format('YYYY-MM-DD HH:mm:ss')
+      value: dayjs().utc().format('YYYY-MM-DD HH:mm:ss')
     }
   ],
   completed: [
@@ -77,14 +79,9 @@ const FILTERS: Record<string, FilterType<'todoList__entries'>> = {
   ]
 }
 
-const getStatusCounter = forgeController
+export const getStatusCounter = forge
   .query()
-  .description({
-    en: 'Get todo counts by status',
-    ms: 'Dapatkan kiraan tugasan mengikut status',
-    'zh-CN': '按状态获取任务数量',
-    'zh-TW': '按狀態獲取任務數量'
-  })
+  .description('Get todo counts by status')
   .input({})
   .callback(async ({ pb }) => {
     const counters = {
@@ -97,7 +94,7 @@ const getStatusCounter = forgeController
 
     for (const type of Object.keys(FILTERS) as (keyof typeof FILTERS)[]) {
       const { totalItems } = await pb.getList
-        .collection('todoList__entries')
+        .collection('entries')
         .page(1)
         .perPage(1)
         .filter(FILTERS[type])
@@ -109,34 +106,24 @@ const getStatusCounter = forgeController
     return counters
   })
 
-const getById = forgeController
+export const getById = forge
   .query()
-  .description({
-    en: 'Get a specific todo by ID',
-    ms: 'Dapatkan tugasan tertentu mengikut ID',
-    'zh-CN': '根据 ID 获取特定任务',
-    'zh-TW': '根據 ID 獲取特定任務'
-  })
+  .description('Get a specific todo by ID')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'todoList__entries'
+    id: 'entries'
   })
   .callback(({ pb, query: { id } }) =>
-    pb.getOne.collection('todoList__entries').id(id).execute()
+    pb.getOne.collection('entries').id(id).execute()
   )
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'Get todos with filters',
-    ms: 'Dapatkan tugasan dengan penapis',
-    'zh-CN': '获取带筛选的任务',
-    'zh-TW': '獲取帶篩選的任務'
-  })
+  .description('Get todos with filters')
   .input({
     query: z.object({
       list: z.string().optional(),
@@ -147,9 +134,9 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    tag: '[todoList__tags]',
-    list: '[todoList__lists]',
-    priority: '[todoList__priorities]'
+    tag: '[tags]',
+    list: '[lists]',
+    priority: '[priorities]'
   })
   .callback(async ({ pb, query: { status, tag, list, priority } }) => {
     const finalFilter = [
@@ -164,22 +151,17 @@ const list = forgeController
     ]
 
     return await pb.getFullList
-      .collection('todoList__entries')
+      .collection('entries')
       .filter(finalFilter)
       .sort(['-created'])
       .execute()
   })
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new todo',
-    ms: 'Cipta tugasan baharu',
-    'zh-CN': '创建新任务',
-    'zh-TW': '創建新任務'
-  })
+  .description('Create a new todo')
   .input({
-    body: SCHEMAS.todoList.entries.schema.omit({
+    body: todoListSchemas.entries.omit({
       completed_at: true,
       done: true,
       created: true,
@@ -187,37 +169,32 @@ const create = forgeController
     })
   })
   .existenceCheck('body', {
-    list: '[todoList__lists]',
-    priority: '[todoList__priorities]',
-    tags: '[todoList__tags]'
+    list: '[lists]',
+    priority: '[priorities]',
+    tags: '[tags]'
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
     pb.create
-      .collection('todoList__entries')
+      .collection('entries')
       .data({
         ...body,
         due_date:
           (body.due_date && !body.due_date_has_time
-            ? moment(body.due_date).endOf('day').toISOString()
+            ? dayjs(body.due_date).endOf('day').toISOString()
             : body.due_date) || ''
       })
       .execute()
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update todo details',
-    ms: 'Kemas kini butiran tugasan',
-    'zh-CN': '更新任务详情',
-    'zh-TW': '更新任務詳情'
-  })
+  .description('Update todo details')
   .input({
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.todoList.entries.schema.omit({
+    body: todoListSchemas.entries.omit({
       completed_at: true,
       done: true,
       created: true,
@@ -225,88 +202,65 @@ const update = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'todoList__entries'
+    id: 'entries'
   })
   .existenceCheck('body', {
-    list: '[todoList__lists]',
-    priority: '[todoList__priorities]',
-    tags: '[todoList__tags]'
+    list: '[lists]',
+    priority: '[priorities]',
+    tags: '[tags]'
   })
   .callback(({ pb, query: { id }, body }) =>
     pb.update
-      .collection('todoList__entries')
+      .collection('entries')
       .id(id)
       .data({
         ...body,
         due_date:
           (body.due_date && !body.due_date_has_time
-            ? moment(body.due_date).endOf('day').toISOString()
+            ? dayjs(body.due_date).endOf('day').toISOString()
             : body.due_date) || ''
       })
       .execute()
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete a todo',
-    ms: 'Padam tugasan',
-    'zh-CN': '删除任务',
-    'zh-TW': '刪除任務'
-  })
+  .description('Delete a todo')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'todoList__entries'
+    id: 'entries'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('todoList__entries').id(id).execute()
+    pb.delete.collection('entries').id(id).execute()
   )
 
-const toggleEntry = forgeController
+export const toggleEntry = forge
   .mutation()
-  .description({
-    en: 'Toggle todo completion status',
-    ms: 'Togol status penyiapan tugasan',
-    'zh-CN': '切换任务完成状态',
-    'zh-TW': '切換任務完成狀態'
-  })
+  .description('Toggle todo completion status')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'todoList__entries'
+    id: 'entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const entry = await pb.getOne
-      .collection('todoList__entries')
-      .id(id)
-      .execute()
+    const entry = await pb.getOne.collection('entries').id(id).execute()
 
     return await pb.update
-      .collection('todoList__entries')
+      .collection('entries')
       .id(id)
       .data({
         done: !entry.done,
         completed_at: entry.done
           ? null
-          : moment().utc().format('YYYY-MM-DD HH:mm:ss')
+          : dayjs().utc().format('YYYY-MM-DD HH:mm:ss')
       })
       .execute()
   })
-
-export default forgeRouter({
-  getById,
-  list,
-  getStatusCounter,
-  create,
-  update,
-  remove,
-  toggleEntry
-})

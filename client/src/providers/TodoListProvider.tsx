@@ -1,26 +1,21 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { createContext, useContext, useMemo, useState } from 'react'
 import type { InferOutput } from 'shared'
 
-export type TodoListEntry = InferOutput<
-  typeof forgeAPI.todoList.entries.getById
->
+import forgeAPI from '@/utils/forgeAPI'
+
+export type TodoListEntry = InferOutput<typeof forgeAPI.entries.getById>
 
 export type TodoListPriority = InferOutput<
-  typeof forgeAPI.todoList.priorities.list
+  typeof forgeAPI.priorities.list
 >[number]
 
-export type TodoListList = InferOutput<
-  typeof forgeAPI.todoList.lists.list
->[number]
+export type TodoListList = InferOutput<typeof forgeAPI.lists.list>[number]
 
-export type TodoListTag = InferOutput<
-  typeof forgeAPI.todoList.tags.list
->[number]
+export type TodoListTag = InferOutput<typeof forgeAPI.tags.list>[number]
 
 export type TodoListStatusCounter = InferOutput<
-  typeof forgeAPI.todoList.entries.getStatusCounter
+  typeof forgeAPI.entries.getStatusCounter
 >
 
 interface ITodoListData {
@@ -38,7 +33,7 @@ interface ITodoListData {
     list: string | null
     priority: string | null
   }
-  selectedTask: InferOutput<typeof forgeAPI.todoList.entries.getById> | null
+  selectedTask: InferOutput<typeof forgeAPI.entries.getById> | null
 
   // Modals
   modifyTaskWindowOpenType: 'create' | 'update' | null
@@ -48,9 +43,7 @@ interface ITodoListData {
     React.SetStateAction<'create' | 'update' | null>
   >
   setSelectedTask: React.Dispatch<
-    React.SetStateAction<InferOutput<
-      typeof forgeAPI.todoList.entries.getById
-    > | null>
+    React.SetStateAction<InferOutput<typeof forgeAPI.entries.getById> | null>
   >
   setFilter: (
     key: 'status' | 'tag' | 'list' | 'priority',
@@ -76,19 +69,17 @@ export function TodoListProvider({ children }: { children: React.ReactNode }) {
   })
 
   const statusCounterQuery = useQuery(
-    forgeAPI.todoList.entries.getStatusCounter.queryOptions()
+    forgeAPI.entries.getStatusCounter.queryOptions()
   )
 
-  const prioritiesQuery = useQuery(
-    forgeAPI.todoList.priorities.list.queryOptions()
-  )
+  const prioritiesQuery = useQuery(forgeAPI.priorities.list.queryOptions())
 
-  const listsQuery = useQuery(forgeAPI.todoList.lists.list.queryOptions())
+  const listsQuery = useQuery(forgeAPI.lists.list.queryOptions())
 
-  const tagsListQuery = useQuery(forgeAPI.todoList.tags.list.queryOptions())
+  const tagsListQuery = useQuery(forgeAPI.tags.list.queryOptions())
 
   const entriesQuery = useQuery(
-    forgeAPI.todoList.entries.list
+    forgeAPI.entries.list
       .input({
         status: filter.status ?? 'all',
         tag: filter.tag ?? undefined,
@@ -106,7 +97,7 @@ export function TodoListProvider({ children }: { children: React.ReactNode }) {
     useState(false)
 
   const [selectedTask, setSelectedTask] = useState<InferOutput<
-    typeof forgeAPI.todoList.entries.getById
+    typeof forgeAPI.entries.getById
   > | null>(null)
 
   const value = useMemo(

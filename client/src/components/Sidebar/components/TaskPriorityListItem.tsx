@@ -30,7 +30,7 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
   }, [item])
 
   const deleteMutation = useMutation(
-    forgeAPI.todoList.priorities.remove
+    forgeAPI.priorities.remove
       .input({
         id: item.id
       })

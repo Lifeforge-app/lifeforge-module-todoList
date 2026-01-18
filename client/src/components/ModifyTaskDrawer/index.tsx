@@ -84,8 +84,8 @@ function ModifyTaskDrawer() {
     try {
       await (
         openType === 'create'
-          ? forgeAPI.todoList.entries.create
-          : forgeAPI.todoList.entries.update.input({
+          ? forgeAPI.entries.create
+          : forgeAPI.entries.update.input({
               id: selectedTask!.id
             })
       ).mutate(task)
@@ -112,7 +112,7 @@ function ModifyTaskDrawer() {
   }
 
   const deleteMutation = useMutation(
-    forgeAPI.todoList.entries.remove
+    forgeAPI.entries.remove
       .input({
         id: selectedTask?.id ?? ''
       })

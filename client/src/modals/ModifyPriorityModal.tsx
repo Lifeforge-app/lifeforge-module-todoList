@@ -1,8 +1,9 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import type { InferInput } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import type { TodoListPriority } from '../providers/TodoListProvider'
 
@@ -20,8 +21,8 @@ function ModifyPriorityModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.todoList.priorities.create
-      : forgeAPI.todoList.priorities.update.input({
+      ? forgeAPI.priorities.create
+      : forgeAPI.priorities.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
@@ -37,7 +38,7 @@ function ModifyPriorityModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.todoList.priorities)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.priorities)[typeof type]>['body']
   >({
     icon: type === 'create' ? 'tabler:plus' : 'tabler:pencil',
     namespace: 'apps.todoList',

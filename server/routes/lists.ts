@@ -1,85 +1,55 @@
-import { SCHEMAS } from '@schema'
 import z from 'zod'
 
-import { forgeController, forgeRouter } from '@functions/routes'
+import forge from '../forge'
+import todoListSchemas from '../schema'
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'Get all todo lists',
-    ms: 'Dapatkan semua senarai tugasan',
-    'zh-CN': '获取所有任务列表',
-    'zh-TW': '獲取所有任務清單'
-  })
+  .description('Get all todo lists')
   .input({})
   .callback(({ pb }) =>
-    pb.getFullList
-      .collection('todoList__lists_aggregated')
-      .sort(['name'])
-      .execute()
+    pb.getFullList.collection('lists_aggregated').sort(['name']).execute()
   )
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new todo list',
-    ms: 'Cipta senarai tugasan baharu',
-    'zh-CN': '创建新任务列表',
-    'zh-TW': '創建新任務清單'
-  })
+  .description('Create a new todo list')
   .input({
-    body: SCHEMAS.todoList.lists.schema
+    body: todoListSchemas.lists
   })
   .statusCode(201)
   .callback(({ pb, body }) =>
-    pb.create.collection('todoList__lists').data(body).execute()
+    pb.create.collection('lists').data(body).execute()
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update todo list details',
-    ms: 'Kemas kini butiran senarai tugasan',
-    'zh-CN': '更新任务列表详情',
-    'zh-TW': '更新任務清單詳情'
-  })
+  .description('Update todo list details')
   .input({
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.todoList.lists.schema
+    body: todoListSchemas.lists
   })
   .existenceCheck('query', {
-    id: 'todoList__lists'
+    id: 'lists'
   })
   .callback(({ pb, query: { id }, body }) =>
-    pb.update.collection('todoList__lists').id(id).data(body).execute()
+    pb.update.collection('lists').id(id).data(body).execute()
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete a todo list',
-    ms: 'Padam senarai tugasan',
-    'zh-CN': '删除任务列表',
-    'zh-TW': '刪除任務清單'
-  })
+  .description('Delete a todo list')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'todoList__lists'
+    id: 'lists'
   })
   .statusCode(204)
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('todoList__lists').id(id).execute()
+    pb.delete.collection('lists').id(id).execute()
   )
-
-export default forgeRouter({
-  list,
-  create,
-  update,
-  remove
-})

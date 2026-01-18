@@ -1,6 +1,7 @@
+import { cleanSchemas } from '@lifeforge/server-utils'
 import z from 'zod'
 
-const todoListSchemas = {
+export const schemas = {
   lists: {
     schema: z.object({
       name: z.string(),
@@ -556,4 +557,4 @@ const todoListSchemas = {
   }
 }
 
-export default todoListSchemas
+export default cleanSchemas(schemas)

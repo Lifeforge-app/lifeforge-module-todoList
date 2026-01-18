@@ -1,19 +1,20 @@
-import moment from 'moment'
+import { type IPBService } from '@lifeforge/server-utils'
+import dayjs from 'dayjs'
 
-import { PBService } from '@functions/database'
+import schema from './schema'
 
 export default async function getEvents({
   pb,
   start,
   end
 }: {
-  pb: PBService
+  pb: IPBService<typeof schema>
   start: string
   end: string
 }) {
   return (
     await pb.getFullList
-      .collection('todoList__entries')
+      .collection('entries')
       .filter([
         { field: 'due_date', operator: '>=', value: start },
         { field: 'due_date', operator: '<=', value: end }
@@ -25,7 +26,7 @@ export default async function getEvents({
     type: 'single' as const,
     title: entry.summary,
     start: entry.due_date,
-    end: moment(entry.due_date).add(1, 'millisecond').toISOString(),
+    end: dayjs(entry.due_date).add(1, 'millisecond').toISOString(),
     category: '_todo',
     calendar: '',
     description: entry.notes,

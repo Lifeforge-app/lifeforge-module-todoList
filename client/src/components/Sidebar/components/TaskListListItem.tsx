@@ -30,7 +30,7 @@ function TaskListListItem({ item }: { item: TodoListList }) {
   }, [item])
 
   const deleteMutation = useMutation(
-    forgeAPI.todoList.lists.remove
+    forgeAPI.lists.remove
       .input({
         id: item.id
       })

@@ -1,12 +1,13 @@
+import { EmptyStateScreen, FAB, SearchInput, WithQuery } from 'lifeforge-ui'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { useLocation, useSearchParams } from 'shared'
+
 import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
 import forgeAPI from '@/utils/forgeAPI'
-import { EmptyStateScreen, FAB, SearchInput, WithQuery } from 'lifeforge-ui'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useLocation, useSearchParams } from 'shared'
 
 import Header from './Header'
 import ModifyTaskDrawer from './ModifyTaskDrawer'
@@ -27,7 +28,7 @@ function TodoListContainer() {
 
   async function fetchAndSetTask(id: string) {
     try {
-      const data = await forgeAPI.todoList.entries.getById
+      const data = await forgeAPI.entries.getById
         .input({
           id
         })

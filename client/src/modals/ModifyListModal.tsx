@@ -1,8 +1,9 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import type { InferInput } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import type { TodoListList } from '../providers/TodoListProvider'
 
@@ -20,8 +21,8 @@ function ModifyListModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.todoList.lists.create
-      : forgeAPI.todoList.lists.update.input({
+      ? forgeAPI.lists.create
+      : forgeAPI.lists.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
@@ -37,7 +38,7 @@ function ModifyListModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.todoList.lists)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.lists)[typeof type]>['body']
   >({
     icon: type === 'create' ? 'tabler:plus' : 'tabler:pencil',
     namespace: 'apps.todoList',
