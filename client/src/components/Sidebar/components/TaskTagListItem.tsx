@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { toast } from 'react-toastify'
+
 import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
   useModalStore
-} from 'lifeforge-ui'
-import { useCallback } from 'react'
-import { toast } from 'react-toastify'
+} from '@lifeforge/ui'
 
 import ModifyTagModal from '@/modals/ModifyTagModal'
 import {

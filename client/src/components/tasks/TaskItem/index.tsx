@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Card, Checkbox } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
+
+import { Card, Checkbox } from '@lifeforge/ui'
 
 import {
   type TodoListEntry,

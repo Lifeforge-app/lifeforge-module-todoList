@@ -9,10 +9,10 @@ import {
   Scrollbar,
   Widget,
   WithQuery
-} from 'lifeforge-ui'
+} from '@lifeforge/ui'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from 'shared'
-import type { WidgetConfig } from 'shared'
+import { Link, useNavigate } from '@lifeforge/shared'
+import type { WidgetConfig } from '@lifeforge/shared'
 
 function TodoListContent() {
   const { t } = useTranslation('apps.todoList')

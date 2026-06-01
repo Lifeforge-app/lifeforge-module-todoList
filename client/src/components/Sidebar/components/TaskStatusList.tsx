@@ -1,5 +1,6 @@
+import { SidebarItem, WithQuery } from '@lifeforge/ui'
+
 import { useTodoListContext } from '@/providers/TodoListProvider'
-import { SidebarItem, WithQuery } from 'lifeforge-ui'
 
 function TaskStatusList() {
   const { statusCounterQuery, filter, setFilter } = useTodoListContext()

@@ -1,7 +1,7 @@
-import { EmptyStateScreen, FAB, SearchInput, WithQuery } from 'lifeforge-ui'
+import { EmptyStateScreen, FAB, SearchInput, WithQuery } from '@lifeforge/ui'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useLocation, useSearchParams } from 'shared'
+import { useLocation, useSearchParams } from '@lifeforge/shared'
 
 import {
   type TodoListEntry,
