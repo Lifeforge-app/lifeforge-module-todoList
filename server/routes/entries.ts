@@ -80,10 +80,19 @@ const FILTERS: Record<string, any> = {
 }
 
 export const getStatusCounter = forge
-  .query()
-  .description('Get todo counts by status')
-  .input({})
-  .callback(async ({ pb }) => {
+  .query({
+    description: 'Get todo counts by status',
+    output: {
+      OK: z.object({
+        all: z.number(),
+        today: z.number(),
+        scheduled: z.number(),
+        overdue: z.number(),
+        completed: z.number()
+      })
+    }
+  })
+  .callback(async ({ pb, response }) => {
     const counters = {
       all: 0,
       today: 0,
@@ -103,164 +112,210 @@ export const getStatusCounter = forge
       counters[type as keyof typeof counters] = totalItems
     }
 
-    return counters
+    return response.ok(counters)
   })
 
 export const getById = forge
-  .query()
-  .description('Get a specific todo by ID')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .query({
+    description: 'Get a specific todo by ID',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: todoListSchemas.entries,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .callback(({ pb, query: { id } }) =>
-    pb.getOne.collection('entries').id(id).execute()
+  .callback(async ({ pb, query: { id }, response }) =>
+    response.ok(await pb.getOne.collection('entries').id(id).execute())
   )
 
 export const list = forge
-  .query()
-  .description('Get todos with filters')
-  .input({
-    query: z.object({
-      list: z.string().optional(),
-      status: z.string().optional().default('all'),
-      priority: z.string().optional(),
-      tag: z.string().optional(),
-      query: z.string().optional()
-    })
+  .query({
+    description: 'Get todos with filters',
+    input: {
+      query: z.object({
+        list: z.string().optional(),
+        status: z.string().optional().default('all'),
+        priority: z.string().optional(),
+        tag: z.string().optional(),
+        query: z.string().optional()
+      })
+    },
+    existenceCheck: {
+      query: {
+        tag: '[tags]',
+        list: '[lists]',
+        priority: '[priorities]'
+      }
+    },
+    output: {
+      OK: z.array(todoListSchemas.entries),
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    tag: '[tags]',
-    list: '[lists]',
-    priority: '[priorities]'
-  })
-  .callback(async ({ pb, query: { status, tag, list, priority } }) => {
-    const finalFilter = [
-      ...(FILTERS[status as keyof typeof FILTERS] || FILTERS.all),
-      ...(tag ? ([{ field: 'tags', operator: '~', value: tag }] as const) : []),
-      ...(list
-        ? ([{ field: 'list', operator: '=', value: list }] as const)
-        : []),
-      ...(priority
-        ? ([{ field: 'priority', operator: '=', value: priority }] as const)
-        : [])
-    ]
+  .callback(
+    async ({ pb, query: { status, tag, list, priority }, response }) => {
+      const finalFilter = [
+        ...(FILTERS[status as keyof typeof FILTERS] || FILTERS.all),
+        ...(tag
+          ? ([{ field: 'tags', operator: '~', value: tag }] as const)
+          : []),
+        ...(list
+          ? ([{ field: 'list', operator: '=', value: list }] as const)
+          : []),
+        ...(priority
+          ? ([{ field: 'priority', operator: '=', value: priority }] as const)
+          : [])
+      ]
 
-    return await pb.getFullList
-      .collection('entries')
-      .filter(finalFilter)
-      .sort(['-created'])
-      .execute()
-  })
+      return response.ok(
+        await pb.getFullList
+          .collection('entries')
+          .filter(finalFilter)
+          .sort(['-created'])
+          .execute()
+      )
+    }
+  )
 
 export const create = forge
-  .mutation()
-  .description('Create a new todo')
-  .input({
-    body: todoListSchemas.entries.omit({
-      completed_at: true,
-      done: true,
-      created: true,
-      updated: true
-    })
-  })
-  .existenceCheck('body', {
-    list: '[lists]',
-    priority: '[priorities]',
-    tags: '[tags]'
-  })
-  .statusCode(201)
-  .callback(({ pb, body }) =>
-    pb.create
-      .collection('entries')
-      .data({
-        ...body,
-        due_date:
-          (body.due_date && !body.due_date_has_time
-            ? dayjs(body.due_date).endOf('day').toISOString()
-            : body.due_date) || ''
+  .mutation({
+    description: 'Create a new todo',
+    input: {
+      body: todoListSchemas.entries.omit({
+        completed_at: true,
+        done: true,
+        created: true,
+        updated: true
       })
-      .execute()
+    },
+    existenceCheck: {
+      body: {
+        list: '[lists]',
+        priority: '[priorities]',
+        tags: '[tags]'
+      }
+    },
+    output: {
+      CREATED: todoListSchemas.entries,
+      NOT_FOUND: true
+    }
+  })
+  .callback(async ({ pb, body, response }) =>
+    response.created(
+      await pb.create
+        .collection('entries')
+        .data({
+          ...body,
+          due_date:
+            (body.due_date && !body.due_date_has_time
+              ? dayjs(body.due_date).endOf('day').toISOString()
+              : body.due_date) || ''
+        })
+        .execute()
+    )
   )
 
 export const update = forge
-  .mutation()
-  .description('Update todo details')
-  .input({
-    query: z.object({
-      id: z.string()
-    }),
-    body: todoListSchemas.entries.omit({
-      completed_at: true,
-      done: true,
-      created: true,
-      updated: true
-    })
-  })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .existenceCheck('body', {
-    list: '[lists]',
-    priority: '[priorities]',
-    tags: '[tags]'
-  })
-  .callback(({ pb, query: { id }, body }) =>
-    pb.update
-      .collection('entries')
-      .id(id)
-      .data({
-        ...body,
-        due_date:
-          (body.due_date && !body.due_date_has_time
-            ? dayjs(body.due_date).endOf('day').toISOString()
-            : body.due_date) || ''
+  .mutation({
+    description: 'Update todo details',
+    input: {
+      query: z.object({
+        id: z.string()
+      }),
+      body: todoListSchemas.entries.omit({
+        completed_at: true,
+        done: true,
+        created: true,
+        updated: true
       })
-      .execute()
+    },
+    existenceCheck: {
+      query: { id: 'entries' },
+      body: {
+        list: '[lists]',
+        priority: '[priorities]',
+        tags: '[tags]'
+      }
+    },
+    output: {
+      OK: todoListSchemas.entries,
+      NOT_FOUND: true
+    }
+  })
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(
+      await pb.update
+        .collection('entries')
+        .id(id)
+        .data({
+          ...body,
+          due_date:
+            (body.due_date && !body.due_date_has_time
+              ? dayjs(body.due_date).endOf('day').toISOString()
+              : body.due_date) || ''
+        })
+        .execute()
+    )
   )
 
 export const remove = forge
-  .mutation()
-  .description('Delete a todo')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Delete a todo',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      NO_CONTENT: true,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
+  .callback(async ({ pb, query: { id }, response }) => {
+    await pb.delete.collection('entries').id(id).execute()
+
+    return response.noContent()
   })
-  .statusCode(204)
-  .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('entries').id(id).execute()
-  )
 
 export const toggleEntry = forge
-  .mutation()
-  .description('Toggle todo completion status')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .mutation({
+    description: 'Toggle todo completion status',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: todoListSchemas.entries,
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .callback(async ({ pb, query: { id } }) => {
+  .callback(async ({ pb, query: { id }, response }) => {
     const entry = await pb.getOne.collection('entries').id(id).execute()
 
-    return await pb.update
-      .collection('entries')
-      .id(id)
-      .data({
-        done: !entry.done,
-        completed_at: entry.done
-          ? null
-          : dayjs().utc().format('YYYY-MM-DD HH:mm:ss')
-      })
-      .execute()
+    return response.ok(
+      await pb.update
+        .collection('entries')
+        .id(id)
+        .data({
+          done: !entry.done,
+          completed_at: entry.done
+            ? null
+            : dayjs().utc().format('YYYY-MM-DD HH:mm:ss')
+        })
+        .execute()
+    )
   })
