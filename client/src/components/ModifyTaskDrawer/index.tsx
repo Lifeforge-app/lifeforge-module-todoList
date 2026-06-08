@@ -20,7 +20,7 @@ import { toast } from 'react-toastify'
 import { usePromiseLoading } from '@lifeforge/shared'
 
 import { useTodoListContext } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ListSelector from './components/ListSelector'
 import PrioritySelector from './components/PrioritySelector'

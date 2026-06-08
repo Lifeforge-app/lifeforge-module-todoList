@@ -8,7 +8,7 @@ import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import TaskDueDate from './components/TaskDueDate'
 import TaskHeader from './components/TaskHeader'

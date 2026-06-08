@@ -7,7 +7,7 @@ import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import Header from './Header'
 import ModifyTaskDrawer from './ModifyTaskDrawer'

@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from 'react'
 
 import type { InferOutput } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 export type TodoListEntry = InferOutput<typeof forgeAPI.entries.getById>
 

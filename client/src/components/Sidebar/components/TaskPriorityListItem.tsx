@@ -14,7 +14,7 @@ import {
   type TodoListPriority,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
   const queryClient = useQueryClient()

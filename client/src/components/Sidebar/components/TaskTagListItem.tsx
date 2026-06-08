@@ -14,7 +14,7 @@ import {
   type TodoListTag,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function TaskTagListItem({ item }: { item: TodoListTag }) {
   const queryClient = useQueryClient()
