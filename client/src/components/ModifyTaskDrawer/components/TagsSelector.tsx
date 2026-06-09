@@ -28,8 +28,8 @@ function TagsSelector({
       icon="tabler:tags"
       label="tags"
       namespace="apps.todoList"
-      onChange={setTags}
       value={tags}
+      onChange={setTags}
     >
       {tagsList.map(({ name, id }, i) => (
         <ListboxOption key={i} icon="tabler:hash" label={name} value={id} />

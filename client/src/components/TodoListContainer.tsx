@@ -1,13 +1,13 @@
-import { EmptyStateScreen, FAB, SearchInput, WithQuery } from '@lifeforge/ui'
 import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useLocation, useSearchParams } from '@lifeforge/shared'
 
+import { useLocation, useSearchParams } from 'react-router'
+import { EmptyStateScreen, FAB, SearchInput, WithQuery , toast } from '@lifeforge/ui'
+
+import { forgeAPI } from '@/manifest'
 import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import { forgeAPI } from '@/manifest'
 
 import Header from './Header'
 import ModifyTaskDrawer from './ModifyTaskDrawer'
@@ -90,8 +90,8 @@ function TodoListContainer() {
               debounceMs={300}
               namespace="apps.todoList"
               searchTarget="task"
-              onChange={setSearchQuery}
               value={searchQuery}
+              onChange={setSearchQuery}
             />
           </div>
           <WithQuery query={entriesQuery}>

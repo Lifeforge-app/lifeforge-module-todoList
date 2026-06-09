@@ -1,20 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 
-import {
+import { toast ,
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
   useModalStore
 } from '@lifeforge/ui'
 
+import { forgeAPI } from '@/manifest'
 import ModifyListModal from '@/modals/ModifyListModal'
 import {
   type TodoListList,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import { forgeAPI } from '@/manifest'
 
 function TaskListListItem({ item }: { item: TodoListList }) {
   const queryClient = useQueryClient()
@@ -57,7 +56,7 @@ function TaskListListItem({ item }: { item: TodoListList }) {
       description: 'Are you sure you want to delete this list?',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [item])

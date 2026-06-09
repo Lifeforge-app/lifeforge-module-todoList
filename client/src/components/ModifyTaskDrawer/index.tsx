@@ -1,8 +1,11 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import {
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { usePromiseLoading } from '@lifeforge/api'
+import { Icon ,
   Button,
   ConfirmationModal,
   ContextMenu,
@@ -12,15 +15,10 @@ import {
   Switch,
   TextAreaInput,
   TextInput
-} from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
-import { usePromiseLoading } from '@lifeforge/shared'
+, useModalStore , toast } from '@lifeforge/ui'
 
-import { useTodoListContext } from '@/providers/TodoListProvider'
 import { forgeAPI } from '@/manifest'
+import { useTodoListContext } from '@/providers/TodoListProvider'
 
 import ListSelector from './components/ListSelector'
 import PrioritySelector from './components/PrioritySelector'
@@ -136,7 +134,7 @@ function ModifyTaskDrawer() {
       description: 'Are you sure you want to delete this task?',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [selectedTask])

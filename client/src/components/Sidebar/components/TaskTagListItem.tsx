@@ -1,20 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 
-import {
+import { toast ,
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
   useModalStore
 } from '@lifeforge/ui'
 
+import { forgeAPI } from '@/manifest'
 import ModifyTagModal from '@/modals/ModifyTagModal'
 import {
   type TodoListTag,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import { forgeAPI } from '@/manifest'
 
 function TaskTagListItem({ item }: { item: TodoListTag }) {
   const queryClient = useQueryClient()
@@ -58,7 +57,7 @@ function TaskTagListItem({ item }: { item: TodoListTag }) {
         'Are you sure you want to delete this tag? The tasks with this tag will not be deleted.',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [item])

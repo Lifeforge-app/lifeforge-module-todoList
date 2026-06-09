@@ -1,14 +1,13 @@
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { toast } from 'react-toastify'
 
-import { Card, Checkbox } from '@lifeforge/ui'
+import { Card, Checkbox, toast } from '@lifeforge/ui'
 
+import { forgeAPI } from '@/manifest'
 import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import { forgeAPI } from '@/manifest'
 
 import TaskDueDate from './components/TaskDueDate'
 import TaskHeader from './components/TaskHeader'
@@ -40,7 +39,7 @@ function TaskItem({
         .input({
           id: entry.id
         })
-        .mutate({})
+        .mutate(undefined)
 
       setTimeout(() => {
         queryClient.invalidateQueries({ queryKey: ['todoList'] })

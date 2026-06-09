@@ -32,8 +32,8 @@ function ListSelector({
       icon="tabler:list"
       label="list"
       namespace="apps.todoList"
-      onChange={setList}
       value={list ?? ''}
+      onChange={setList}
     >
       <ListboxOption color="lightgray" label="None" value="" />
       {lists.map(({ name, color, id }) => (

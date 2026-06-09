@@ -1,8 +1,7 @@
-import TaskItem from '@/components/tasks/TaskItem'
-import {
-  TodoListProvider,
-  useTodoListContext
-} from '@/providers/TodoListProvider'
+import { useTranslation } from 'react-i18next'
+
+import type { WidgetConfig } from '@lifeforge/configs'
+import { Link, useNavigate } from 'react-router'
 import {
   Button,
   EmptyStateScreen,
@@ -10,9 +9,12 @@ import {
   Widget,
   WithQuery
 } from '@lifeforge/ui'
-import { useTranslation } from 'react-i18next'
-import { Link, useNavigate } from '@lifeforge/shared'
-import type { WidgetConfig } from '@lifeforge/shared'
+
+import TaskItem from '@/components/tasks/TaskItem'
+import {
+  TodoListProvider,
+  useTodoListContext
+} from '@/providers/TodoListProvider'
 
 function TodoListContent() {
   const { t } = useTranslation('apps.todoList')

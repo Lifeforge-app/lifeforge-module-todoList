@@ -1,20 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 
-import {
+import { toast ,
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
   useModalStore
 } from '@lifeforge/ui'
 
+import { forgeAPI } from '@/manifest'
 import ModifyPriorityModal from '@/modals/ModifyPriorityModal'
 import {
   type TodoListPriority,
   useTodoListContext
 } from '@/providers/TodoListProvider'
-import { forgeAPI } from '@/manifest'
 
 function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
   const queryClient = useQueryClient()
@@ -57,7 +56,7 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
       description: 'Are you sure you want to delete this priority?',
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [item])
