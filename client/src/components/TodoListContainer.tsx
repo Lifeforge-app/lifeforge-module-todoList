@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react'
-
 import { useLocation, useSearchParams } from 'react-router'
-import { EmptyStateScreen, FAB, SearchInput, WithQuery , toast } from '@lifeforge/ui'
+
+import {
+  EmptyStateScreen,
+  FAB,
+  SearchInput,
+  WithQuery,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import {

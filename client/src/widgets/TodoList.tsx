@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
+import { Link, useNavigate } from 'react-router'
 
 import type { WidgetConfig } from '@lifeforge/configs'
-import { Link, useNavigate } from 'react-router'
 import {
   Button,
   EmptyStateScreen,

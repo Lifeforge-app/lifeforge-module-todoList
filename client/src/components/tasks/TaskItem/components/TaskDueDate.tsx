@@ -1,7 +1,8 @@
-import type { TodoListEntry } from '@/providers/TodoListProvider'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
+import type { TodoListEntry } from '@/providers/TodoListProvider'
 
 dayjs.extend(relativeTime)
 

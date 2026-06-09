@@ -5,17 +5,20 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { usePromiseLoading } from '@lifeforge/api'
-import { Icon ,
+import {
   Button,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
   DateInput,
+  Icon,
   Scrollbar,
   Switch,
   TextAreaInput,
-  TextInput
-, useModalStore , toast } from '@lifeforge/ui'
+  TextInput,
+  toast,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import { useTodoListContext } from '@/providers/TodoListProvider'
