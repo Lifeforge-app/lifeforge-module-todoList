@@ -1,11 +1,11 @@
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Button, TagsFilter, useModuleSidebarState } from '@lifeforge/ui'
 
 import { useTodoListContext } from '@/providers/TodoListProvider'
 
 function Header() {
-  const { t } = useTranslation('apps.todoList')
+  const { t } = useModuleTranslation()
 
   const { setIsSidebarOpen } = useModuleSidebarState()
 

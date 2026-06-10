@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Link, useNavigate } from 'react-router'
 
 import type { WidgetConfig } from '@lifeforge/configs'
@@ -17,7 +17,7 @@ import {
 } from '@/providers/TodoListProvider'
 
 function TodoListContent() {
-  const { t } = useTranslation('apps.todoList')
+  const { t } = useModuleTranslation()
 
   const navigate = useNavigate()
 

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { usePromiseLoading } from '@lifeforge/api'
 import {
@@ -32,7 +32,7 @@ function ModifyTaskDrawer() {
 
   const queryClient = useQueryClient()
 
-  const { t } = useTranslation('apps.todoList')
+  const { t } = useModuleTranslation()
 
   const {
     modifyTaskWindowOpenType: openType,

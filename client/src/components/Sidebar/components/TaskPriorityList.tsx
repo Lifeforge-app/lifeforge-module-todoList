@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
 
@@ -11,7 +11,7 @@ import TaskPriorityListItem from './TaskPriorityListItem'
 function TaskPriorityList() {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.todoList')
+  const { t } = useModuleTranslation()
 
   const { prioritiesQuery } = useTodoListContext()
 
