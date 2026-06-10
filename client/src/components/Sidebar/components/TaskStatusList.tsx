@@ -24,7 +24,6 @@ function TaskStatusList() {
               }
               icon={icon}
               label={name}
-              namespace="apps.todoList"
               number={
                 statusCounter[name.toLowerCase() as keyof typeof statusCounter]
               }

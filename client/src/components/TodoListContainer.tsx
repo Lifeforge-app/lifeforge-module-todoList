@@ -92,7 +92,6 @@ function TodoListContainer() {
             <SearchInput
               className="mt-4"
               debounceMs={300}
-              namespace="apps.todoList"
               searchTarget="task"
               value={searchQuery}
               onChange={setSearchQuery}
@@ -106,8 +105,7 @@ function TodoListContainer() {
                 <EmptyStateScreen
                   icon="tabler:article-off"
                   message={{
-                    id: 'tasks',
-                    namespace: 'apps.todoList'
+                    id: 'tasks'
                   }}
                 />
               )

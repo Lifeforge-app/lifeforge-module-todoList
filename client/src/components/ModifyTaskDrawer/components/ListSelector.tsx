@@ -31,7 +31,6 @@ function ListSelector({
       }
       icon="tabler:list"
       label="list"
-      namespace="apps.todoList"
       value={list ?? ''}
       onChange={setList}
     >

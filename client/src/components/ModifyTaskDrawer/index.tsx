@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
 import { usePromiseLoading } from '@lifeforge/api'
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   ConfirmationModal,
@@ -215,7 +215,6 @@ function ModifyTaskDrawer() {
               className="w-full"
               icon="tabler:abc"
               label="Summary"
-              namespace="apps.todoList"
               placeholder="An urgent task"
               value={summary}
               onChange={setSummary}
@@ -240,7 +239,6 @@ function ModifyTaskDrawer() {
               hasTime={dueDateHasTime}
               icon="tabler:calendar"
               label="Due date"
-              namespace="apps.todoList"
               value={dueDate}
               onChange={setDueDate}
             />
@@ -250,7 +248,6 @@ function ModifyTaskDrawer() {
             <TextAreaInput
               icon="tabler:pencil"
               label="Notes"
-              namespace="apps.todoList"
               placeholder="Add notes here..."
               value={notes}
               onChange={setNotes}

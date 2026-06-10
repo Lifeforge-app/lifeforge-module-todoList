@@ -8,7 +8,7 @@ import TaskTagList from './components/TaskTagList'
 function Sidebar() {
   return (
     <SidebarWrapper>
-      <SidebarTitle label="tasks" namespace="apps.todoList" />
+      <SidebarTitle label="tasks" />
       <TaskStatusList />
       <SidebarDivider />
       <TaskPriorityList />

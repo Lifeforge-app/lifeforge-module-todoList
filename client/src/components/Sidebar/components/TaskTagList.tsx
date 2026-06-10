@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
 
 import ModifyTagModal from '@/modals/ModifyTagModal'
@@ -27,7 +27,6 @@ function TaskTagList() {
           onClick: handleCreateTag
         }}
         label="Tags"
-        namespace="apps.todoList"
       />
       <WithQuery query={tagsListQuery}>
         {tags =>

@@ -27,7 +27,6 @@ function TagsSelector({
       }
       icon="tabler:tags"
       label="tags"
-      namespace="apps.todoList"
       value={tags}
       onChange={setTags}
     >

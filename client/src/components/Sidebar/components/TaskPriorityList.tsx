@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
 
 import ModifyPriorityModal from '@/modals/ModifyPriorityModal'
@@ -27,7 +27,6 @@ function TaskPriorityList() {
           onClick: handleCreatePriority
         }}
         label="priorities"
-        namespace="apps.todoList"
       />
       <WithQuery query={prioritiesQuery}>
         {priorities =>

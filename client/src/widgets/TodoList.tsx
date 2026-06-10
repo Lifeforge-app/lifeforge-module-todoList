@@ -1,7 +1,7 @@
-import { useModuleTranslation } from '@lifeforge/localization'
 import { Link, useNavigate } from 'react-router'
 
 import type { WidgetConfig } from '@lifeforge/configs'
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   EmptyStateScreen,
@@ -48,7 +48,6 @@ function TodoListContent() {
               icon="tabler:calendar-smile"
               message={{
                 id: 'today',
-                namespace: 'apps.todoList',
                 tKey: 'widgets.todoList'
               }}
             />
@@ -73,7 +72,6 @@ export default function TodoList() {
       }
       className="pr-3"
       icon="tabler:clipboard-list"
-      namespace="apps.todoList"
       title="Todo List"
     >
       <TodoListProvider>
@@ -86,7 +84,6 @@ export default function TodoList() {
 }
 
 export const config: WidgetConfig = {
-  namespace: 'apps.todoList',
   id: 'todoList',
   icon: 'tabler:checklist'
 }
