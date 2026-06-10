@@ -10,9 +10,7 @@ import TaskListListItem from './TaskListListItem'
 
 function TaskListList() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
-
   const { listsQuery } = useTodoListContext()
 
   const handleCreateList = useCallback(() => {

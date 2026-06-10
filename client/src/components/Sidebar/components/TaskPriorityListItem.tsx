@@ -18,9 +18,7 @@ import {
 
 function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
   const queryClient = useQueryClient()
-
   const { open } = useModalStore()
-
   const { filter, setFilter } = useTodoListContext()
 
   const handleUpdatePriority = useCallback(() => {

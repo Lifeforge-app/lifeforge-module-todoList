@@ -18,9 +18,7 @@ import {
 
 function TaskTagListItem({ item }: { item: TodoListTag }) {
   const queryClient = useQueryClient()
-
   const { open } = useModalStore()
-
   const { filter, setFilter } = useTodoListContext()
 
   const handleUpdateTag = useCallback(() => {

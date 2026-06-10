@@ -18,9 +18,7 @@ import {
 
 function TodoListContent() {
   const { t } = useModuleTranslation()
-
   const navigate = useNavigate()
-
   const { entriesQuery } = useTodoListContext()
 
   return (

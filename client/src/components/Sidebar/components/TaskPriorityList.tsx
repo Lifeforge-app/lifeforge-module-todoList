@@ -10,9 +10,7 @@ import TaskPriorityListItem from './TaskPriorityListItem'
 
 function TaskPriorityList() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
-
   const { prioritiesQuery } = useTodoListContext()
 
   const handleCreatePriority = useCallback(() => {

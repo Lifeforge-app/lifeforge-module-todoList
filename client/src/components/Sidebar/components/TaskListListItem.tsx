@@ -18,9 +18,7 @@ import {
 
 function TaskListListItem({ item }: { item: TodoListList }) {
   const queryClient = useQueryClient()
-
   const { filter, setFilter } = useTodoListContext()
-
   const { open } = useModalStore()
 
   const handleUpdateList = useCallback(() => {

@@ -29,9 +29,7 @@ import TagsSelector from './components/TagsSelector'
 
 function ModifyTaskDrawer() {
   const { open } = useModalStore()
-
   const queryClient = useQueryClient()
-
   const { t } = useModuleTranslation()
 
   const {
@@ -42,17 +40,11 @@ function ModifyTaskDrawer() {
   } = useTodoListContext()
 
   const [summary, setSummary] = useState('')
-
   const [notes, setNotes] = useState('')
-
   const [dueDateHasTime, setDueDateHasTime] = useState(false)
-
   const [dueDate, setDueDate] = useState<Date | null>(null)
-
   const [priority, setPriority] = useState<string>('')
-
   const [list, setList] = useState<string>('')
-
   const [tags, setTags] = useState<string[]>([])
 
   const [innerOpenType, setInnerOpenType] = useState<
@@ -60,7 +52,6 @@ function ModifyTaskDrawer() {
   >(openType)
 
   const summaryInputRef = useRef<HTMLInputElement>(null)
-
   const ref = useRef<HTMLInputElement>(null)
 
   async function handleSubmit() {

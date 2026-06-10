@@ -6,7 +6,6 @@ import { useTodoListContext } from '@/providers/TodoListProvider'
 
 function Header() {
   const { t } = useModuleTranslation()
-
   const { setIsSidebarOpen } = useModuleSidebarState()
 
   const {

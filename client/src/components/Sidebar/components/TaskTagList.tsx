@@ -10,9 +10,7 @@ import TaskTagListItem from './TaskTagListItem'
 
 function TaskTagList() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
-
   const { tagsListQuery } = useTodoListContext()
 
   const handleCreateTag = useCallback(() => {

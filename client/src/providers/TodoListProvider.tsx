@@ -74,9 +74,7 @@ export function TodoListProvider({ children }: { children: React.ReactNode }) {
   )
 
   const prioritiesQuery = useQuery(forgeAPI.priorities.list.queryOptions())
-
   const listsQuery = useQuery(forgeAPI.lists.list.queryOptions())
-
   const tagsListQuery = useQuery(forgeAPI.tags.list.queryOptions())
 
   const entriesQuery = useQuery(

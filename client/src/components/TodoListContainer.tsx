@@ -27,9 +27,7 @@ function TodoListContainer() {
     useTodoListContext()
 
   const [searchQuery, setSearchQuery] = useState('')
-
   const [filteredEntries, setFilteredEntries] = useState<TodoListEntry[]>([])
-
   const { hash } = useLocation()
 
   async function fetchAndSetTask(id: string) {
