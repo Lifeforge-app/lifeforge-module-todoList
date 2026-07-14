@@ -1,5 +1,4 @@
 import z from 'zod'
-
 import { cleanSchemas } from '@lifeforge/server-utils'
 
 export const schemas = {
@@ -71,9 +70,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_T3w3dLGNcW` ON `todo_list__lists` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },
@@ -117,9 +114,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_scwXEaym2g` ON `todo_list__tags` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },
@@ -334,9 +329,7 @@ export const schemas = {
           type: 'text'
         }
       ],
-      indexes: [
-        'CREATE UNIQUE INDEX `idx_IbjNIIyb5l` ON `todo_list__priorities` (`name`)'
-      ],
+      indexes: [],
       system: false
     }
   },
