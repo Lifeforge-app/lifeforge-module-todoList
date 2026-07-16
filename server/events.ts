@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import { type IPBService } from '@lifeforge/server-utils'
+import { type IPBService } from '@lifeforge/pocketbase'
 
 import schema from './schema'
 
