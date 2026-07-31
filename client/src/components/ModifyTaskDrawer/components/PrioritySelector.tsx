@@ -16,7 +16,9 @@ function PrioritySelector({
 
   return (
     <ListboxInput
-      buttonContent={
+      icon="tabler:alert-triangle"
+      label="priority"
+      renderContent={() => (
         <>
           <span
             className="block h-6 w-1 rounded-full"
@@ -29,9 +31,7 @@ function PrioritySelector({
             {priorities.find(p => p.id === priority)?.name ?? 'None'}
           </span>
         </>
-      }
-      icon="tabler:alert-triangle"
-      label="priority"
+      )}
       value={priority}
       onChange={setPriority}
     >

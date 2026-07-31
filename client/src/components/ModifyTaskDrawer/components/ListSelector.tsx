@@ -15,7 +15,9 @@ function ListSelector({
 
   return (
     <ListboxInput
-      buttonContent={
+      icon="tabler:list"
+      label="list"
+      renderContent={() => (
         <>
           <span
             className="block h-6 w-1 rounded-full"
@@ -28,9 +30,7 @@ function ListSelector({
             {lists.find(l => l.id === list)?.name ?? 'None'}
           </span>
         </>
-      }
-      icon="tabler:list"
-      label="list"
+      )}
       value={list ?? ''}
       onChange={setList}
     >

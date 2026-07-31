@@ -16,7 +16,9 @@ function TagsSelector({
   return (
     <ListboxInput
       multiple
-      buttonContent={
+      icon="tabler:tags"
+      label="tags"
+      renderContent={() => (
         <span className="-mt-px block truncate">
           {tags.length > 0
             ? tags
@@ -24,9 +26,7 @@ function TagsSelector({
                 .join(', ')
             : 'None'}
         </span>
-      }
-      icon="tabler:tags"
-      label="tags"
+      )}
       value={tags}
       onChange={setTags}
     >
