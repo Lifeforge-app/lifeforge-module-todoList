@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import { useModuleTranslation } from '@lifeforge/localization'
-import { SidebarTitle, WithQuery, useModalStore } from '@lifeforge/ui'
+import { SidebarTitle, Text, WithQuery, useModalStore } from '@lifeforge/ui'
 
 import ModifyListModal from '@/modals/ModifyListModal'
 import { useTodoListContext } from '@/providers/TodoListProvider'
@@ -37,7 +37,9 @@ function TaskListList() {
               ))}
             </>
           ) : (
-            <p className="text-bg-500 text-center">{t('empty.lists')}</p>
+            <Text align="center" color="muted">
+              {t('empty.lists')}
+            </Text>
           )
         }
       </WithQuery>

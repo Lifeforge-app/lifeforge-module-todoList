@@ -6,8 +6,10 @@ import {
   Button,
   EmptyStateScreen,
   Scrollbar,
+  Stack,
   Widget,
-  WithQuery
+  WithQuery,
+  surface
 } from '@lifeforge/ui'
 
 import TaskItem from '@/components/tasks/TaskItem'
@@ -24,13 +26,13 @@ function TodoListContent() {
   return (
     <WithQuery query={entriesQuery}>
       {entries => (
-        <ul className="flex flex-1 flex-col gap-2 pr-4">
+        <Stack as="ul" flex="1" pr="md">
           {entries.length > 0 ? (
             entries.map(entry => (
               <TaskItem
                 key={entry.id}
                 isInDashboardWidget
-                className="component-bg-lighter-with-hover"
+                bg={surface.light}
                 entry={entry}
               />
             ))
@@ -52,7 +54,7 @@ function TodoListContent() {
               }}
             />
           )}
-        </ul>
+        </Stack>
       )}
     </WithQuery>
   )
@@ -64,14 +66,15 @@ export default function TodoList() {
       actionComponent={
         <Button
           as={Link}
-          className="mr-3 p-2!"
           icon="tabler:chevron-right"
+          mr="sm"
+          p="sm"
           to="/todo-list"
           variant="plain"
         />
       }
-      className="pr-3"
       icon="tabler:clipboard-list"
+      pr="md"
       title="Todo List"
     >
       <TodoListProvider>

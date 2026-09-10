@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
+import { useForgeMutation } from '@lifeforge/api'
 import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
-  toast,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -17,7 +16,6 @@ import {
 } from '@/providers/TodoListProvider'
 
 function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
-  const queryClient = useQueryClient()
   const { open } = useModalStore()
   const { filter, setFilter } = useTodoListContext()
 
@@ -28,25 +26,17 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
     })
   }, [item])
 
-  const deleteMutation = useMutation(
-    forgeAPI.priorities.remove
-      .input({
-        id: item.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['todoList'] })
-
-          if (item.id === filter.priority) {
-            setFilter('priority', null)
-          }
-        },
-        onError: () => {
-          toast.error(
-            'An error occurred while deleting the priority. Please try again later.'
-          )
+  const deleteMutation = useForgeMutation(
+    forgeAPI.priorities.remove.input({ id: item.id }),
+    {
+      action: 'delete',
+      queryKey: forgeAPI.key,
+      onSuccess: () => {
+        if (item.id === filter.priority) {
+          setFilter('priority', null)
         }
-      })
+      }
+    }
   )
 
   const handleDeletePriority = useCallback(() => {
@@ -79,6 +69,7 @@ function TaskPriorityListItem({ item }: { item: TodoListPriority }) {
         </>
       }
       label={item.name}
+      namespace={false}
       number={item.amount}
       sideStripColor={item.color}
       onCancelButtonClick={() => {

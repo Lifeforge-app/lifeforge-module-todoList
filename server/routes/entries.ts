@@ -192,7 +192,10 @@ export const create = forge
         completed_at: true,
         done: true,
         created: true,
-        updated: true
+        updated: true,
+        id: true,
+        collectionId: true,
+        collectionName: true
       })
     },
     existenceCheck: {
@@ -233,7 +236,10 @@ export const update = forge
         completed_at: true,
         done: true,
         created: true,
-        updated: true
+        updated: true,
+        id: true,
+        collectionId: true,
+        collectionName: true
       })
     },
     existenceCheck: {

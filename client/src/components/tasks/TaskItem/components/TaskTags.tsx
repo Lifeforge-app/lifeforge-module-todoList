@@ -1,3 +1,5 @@
+import { Flex, TagChip, Text, usePersonalization } from '@lifeforge/ui'
+
 import {
   type TodoListEntry,
   useTodoListContext
@@ -5,27 +7,30 @@ import {
 
 function TaskTags({ entry }: { entry: TodoListEntry }) {
   const { tagsListQuery } = useTodoListContext()
+  const { derivedThemeColor } = usePersonalization()
 
   const tags = tagsListQuery.data ?? []
 
   return (
-    <div className="flex w-full min-w-0 items-center gap-1">
+    <Flex align="center" gap="xs" minWidth="0" width="100%">
       {entry.tags?.length > 0 &&
         entry.tags.slice(0, 3).map(tag => (
-          <span
+          <TagChip
             key={tag}
-            className="text-custom-500 relative isolate min-w-12 truncate px-2 py-0.5 text-xs whitespace-nowrap"
-          >
-            <div className="bg-custom-500 absolute top-0 left-0 z-[-1] size-full rounded-full opacity-20" />
-            #{tags.find(t => t.id === tag)?.name}
-          </span>
+            as="span"
+            color={derivedThemeColor}
+            label={`#${tags.find(t => t.id === tag)?.name}`}
+            minWidth="3rem"
+            size="sm"
+            variant="outlined"
+          />
         ))}
       {entry.tags?.length > 3 && (
-        <span className="text-bg-500 shrink-0 text-xs">
+        <Text color="muted" size="xs" style={{ flexShrink: 0 }}>
           +{entry.tags.length - 3} more
-        </span>
+        </Text>
       )}
-    </div>
+    </Flex>
   )
 }
 

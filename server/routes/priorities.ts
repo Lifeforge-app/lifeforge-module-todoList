@@ -20,7 +20,11 @@ export const create = forge
   .mutation({
     description: 'Create a new priority level',
     input: {
-      body: todoListSchemas.priorities
+      body: todoListSchemas.priorities.omit({
+        id: true,
+        collectionId: true,
+        collectionName: true
+      })
     },
     output: {
       CREATED: todoListSchemas.priorities
@@ -39,7 +43,11 @@ export const update = forge
       query: z.object({
         id: z.string()
       }),
-      body: todoListSchemas.priorities
+      body: todoListSchemas.priorities.omit({
+        id: true,
+        collectionId: true,
+        collectionName: true
+      })
     },
     existenceCheck: {
       query: { id: 'priorities' }

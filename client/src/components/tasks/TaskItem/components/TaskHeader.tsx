@@ -1,3 +1,5 @@
+import { Box, Flex, Text } from '@lifeforge/ui'
+
 import {
   type TodoListEntry,
   useTodoListContext
@@ -9,19 +11,25 @@ function TaskHeader({ entry }: { entry: TodoListEntry }) {
   const priorities = prioritiesQuery.data ?? []
 
   return (
-    <div className="flex w-full min-w-0 items-center gap-2 font-semibold">
-      <span className="min-w-0 truncate">{entry.summary}</span>
+    <Flex align="center" gap="sm" minWidth="0" width="100%">
+      <Text truncate weight="semibold">
+        {entry.summary}
+      </Text>
       {entry.priority !== '' && (
-        <span
-          className="-mb-1 block size-2 shrink-0 rounded-full"
+        <Box
+          flexShrink="0"
+          height="0.5rem"
+          r="full"
           style={{
             backgroundColor:
               priorities.find(p => p.id === entry.priority)?.color ??
-              'lightgray'
+              'lightgray',
+            marginBottom: '-0.25rem'
           }}
+          width="0.5rem"
         />
       )}
-    </div>
+    </Flex>
   )
 }
 

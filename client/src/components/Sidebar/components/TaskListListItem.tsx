@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
 
+import { useForgeMutation } from '@lifeforge/api'
 import {
   ConfirmationModal,
   ContextMenuItem,
   SidebarItem,
-  toast,
   useModalStore
 } from '@lifeforge/ui'
 
@@ -17,7 +16,6 @@ import {
 } from '@/providers/TodoListProvider'
 
 function TaskListListItem({ item }: { item: TodoListList }) {
-  const queryClient = useQueryClient()
   const { filter, setFilter } = useTodoListContext()
   const { open } = useModalStore()
 
@@ -28,25 +26,17 @@ function TaskListListItem({ item }: { item: TodoListList }) {
     })
   }, [item])
 
-  const deleteMutation = useMutation(
-    forgeAPI.lists.remove
-      .input({
-        id: item.id
-      })
-      .mutationOptions({
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['todoList'] })
-
-          if (filter.list === item.id) {
-            setFilter('list', null)
-          }
-        },
-        onError: () => {
-          toast.error(
-            'An error occurred while deleting the list. Please try again later.'
-          )
+  const deleteMutation = useForgeMutation(
+    forgeAPI.lists.remove.input({ id: item.id }),
+    {
+      action: 'delete',
+      queryKey: forgeAPI.key,
+      onSuccess: () => {
+        if (filter.list === item.id) {
+          setFilter('list', null)
         }
-      })
+      }
+    }
   )
 
   const handleDeleteList = useCallback(() => {
@@ -80,6 +70,7 @@ function TaskListListItem({ item }: { item: TodoListList }) {
       }
       icon={item.icon}
       label={item.name}
+      namespace={false}
       number={item.amount}
       sideStripColor={item.color}
       onCancelButtonClick={() => {

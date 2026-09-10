@@ -2,29 +2,38 @@ import { useEffect, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router'
 
 import {
+  Box,
   EmptyStateScreen,
   FAB,
+  Flex,
   SearchInput,
   WithQuery,
-  toast
+  toast,
+  useModalStore
 } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
+import ModifyTaskModal from '@/modals/ModifyTaskModal'
 import {
   type TodoListEntry,
   useTodoListContext
 } from '@/providers/TodoListProvider'
 
 import Header from './Header'
-import ModifyTaskDrawer from './ModifyTaskDrawer'
 import Sidebar from './Sidebar'
 import TaskList from './tasks/TaskList'
 
 function TodoListContainer() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { open } = useModalStore()
 
-  const { entriesQuery, setModifyTaskWindowOpenType, setSelectedTask } =
-    useTodoListContext()
+  const {
+    entriesQuery,
+    modifyTaskWindowOpenType,
+    selectedTask,
+    setModifyTaskWindowOpenType,
+    setSelectedTask
+  } = useTodoListContext()
 
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredEntries, setFilteredEntries] = useState<TodoListEntry[]>([])
@@ -67,6 +76,21 @@ function TodoListContainer() {
   }, [searchParams, entriesQuery.data])
 
   useEffect(() => {
+    if (modifyTaskWindowOpenType === null) return
+
+    if (modifyTaskWindowOpenType === 'update' && !selectedTask) return
+
+    open(ModifyTaskModal, {
+      type: modifyTaskWindowOpenType,
+      initialData:
+        modifyTaskWindowOpenType === 'update' ? selectedTask : undefined
+    })
+
+    setModifyTaskWindowOpenType(null)
+    setSelectedTask(null)
+  }, [modifyTaskWindowOpenType, selectedTask])
+
+  useEffect(() => {
     if (searchQuery.trim() === '') {
       setFilteredEntries(entriesQuery.data ?? [])
 
@@ -84,19 +108,27 @@ function TodoListContainer() {
 
   return (
     <>
-      <div className="flex size-full min-h-0 flex-1">
+      <Flex flex="1" height="100%" minHeight="0" width="100%">
         <Sidebar />
-        <div className="relative z-10 flex h-full flex-1 flex-col xl:ml-8">
+        <Flex
+          direction="column"
+          flex="1"
+          height="100%"
+          ml={{ base: 'none', xl: 'xl' }}
+          position="relative"
+          width="100%"
+          zIndex="10"
+        >
           <Header />
-          <div className="w-full px-4">
+          <Box px="md" width="100%">
             <SearchInput
-              className="mt-4"
               debounceMs={300}
+              mt="md"
               searchTarget="task"
               value={searchQuery}
               onChange={setSearchQuery}
             />
-          </div>
+          </Box>
           <WithQuery query={entriesQuery}>
             {() =>
               filteredEntries.length > 0 ? (
@@ -111,9 +143,8 @@ function TodoListContainer() {
               )
             }
           </WithQuery>
-        </div>
-      </div>
-      <ModifyTaskDrawer />
+        </Flex>
+      </Flex>
       {(entriesQuery.data ?? []).length > 0 && (
         <FAB
           onClick={() => {

@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
+import type { ComponentProps } from 'react'
 
-import { Card, Checkbox, toast } from '@lifeforge/ui'
+import { Box, Card, Checkbox, Flex, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import {
@@ -9,27 +9,22 @@ import {
   useTodoListContext
 } from '@/providers/TodoListProvider'
 
+import TaskContextMenu from './components/TaskContextMenu'
 import TaskDueDate from './components/TaskDueDate'
 import TaskHeader from './components/TaskHeader'
 import TaskTags from './components/TaskTags'
 
 function TaskItem({
   entry,
-  className,
+  bg,
   isInDashboardWidget
 }: {
   entry: TodoListEntry
-  className?: string
+  bg?: ComponentProps<typeof Card>['bg']
   isInDashboardWidget?: boolean
 }) {
   const queryClient = useQueryClient()
-
-  const {
-    statusCounterQuery,
-    listsQuery,
-    setSelectedTask,
-    setModifyTaskWindowOpenType
-  } = useTodoListContext()
+  const { statusCounterQuery, listsQuery } = useTodoListContext()
 
   const lists = listsQuery.data ?? []
 
@@ -42,7 +37,7 @@ function TaskItem({
         .mutate(undefined)
 
       setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: ['todoList'] })
+        queryClient.invalidateQueries({ queryKey: forgeAPI.key })
         statusCounterQuery.refetch()
       }, 500)
     } catch {
@@ -51,46 +46,38 @@ function TaskItem({
   }
 
   return (
-    <Card
-      key={entry.id}
-      isInteractive
-      as="li"
-      className={clsx('flex-between relative isolate flex gap-6', className)}
-    >
-      <div className="flex w-full min-w-0 items-center gap-3">
+    <Card as="li" bg={bg} direction="row" gap="xl" justify="between">
+      <Flex align="center" gap="md" minWidth="0" width="100%">
         {typeof lists !== 'string' && entry.list !== '' && (
-          <span
-            className="h-10 w-1 shrink-0 rounded-full"
+          <Box
+            flexShrink="0"
+            height="2.5rem"
+            r="full"
             style={{
               backgroundColor: lists.find(l => l.id === entry.list)?.color
             }}
+            width="0.25rem"
           />
         )}
-        <div className="w-full min-w-0">
+        <Box minWidth="0" width="100%">
           <TaskHeader entry={entry} />
           {(entry.due_date || entry.tags.length > 0) && (
-            <div className="mt-1 flex items-center gap-2">
+            <Flex align="center" gap="sm" mt="xs">
               <TaskDueDate entry={entry} />
               <TaskTags entry={entry} />
-            </div>
+            </Flex>
           )}
-        </div>
-      </div>
-      <Checkbox
-        checked={entry.done}
-        onCheckedChange={() => {
-          toggleTaskCompletion()
-        }}
-      />
-      <button
-        className="absolute top-0 left-0 size-full"
-        onClick={() => {
-          if (!isInDashboardWidget) {
-            setModifyTaskWindowOpenType('update')
-            setSelectedTask(entry)
-          }
-        }}
-      />
+        </Box>
+      </Flex>
+      <Flex align="center" gap="md" justify="center">
+        <Checkbox
+          checked={entry.done}
+          onCheckedChange={() => {
+            toggleTaskCompletion()
+          }}
+        />
+        {!isInDashboardWidget && <TaskContextMenu entry={entry} />}
+      </Flex>
     </Card>
   )
 }

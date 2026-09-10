@@ -1,6 +1,7 @@
-import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
+import { Text } from '@lifeforge/ui'
 
 import type { TodoListEntry } from '@/providers/TodoListProvider'
 
@@ -8,26 +9,25 @@ dayjs.extend(relativeTime)
 
 function TaskDueDate({ entry }: { entry: TodoListEntry }) {
   return (
-    <>
+    <div>
       {entry.done && entry.completed_at !== '' ? (
-        <div className="text-bg-500 text-sm whitespace-nowrap">
+        <Text color="muted" size="sm" whiteSpace="nowrap">
           Completed: {dayjs(entry.completed_at).fromNow()}
-        </div>
+        </Text>
       ) : (
         entry.due_date !== '' && (
-          <div
-            className={clsx(
-              'shrink-0 truncate text-sm',
-              dayjs(entry.due_date).isBefore(dayjs())
-                ? 'text-red-500'
-                : 'text-bg-500'
-            )}
+          <Text
+            truncate
+            color={
+              dayjs(entry.due_date).isBefore(dayjs()) ? 'red-500' : 'muted'
+            }
+            size="sm"
           >
             Due {dayjs(entry.due_date).fromNow()}
-          </div>
+          </Text>
         )
       )}
-    </>
+    </div>
   )
 }
 

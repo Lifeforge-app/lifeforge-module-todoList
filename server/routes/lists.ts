@@ -23,7 +23,11 @@ export const create = forge
   .mutation({
     description: 'Create a new todo list',
     input: {
-      body: todoListSchemas.lists
+      body: todoListSchemas.lists.omit({
+        id: true,
+        collectionId: true,
+        collectionName: true
+      })
     },
     output: {
       CREATED: todoListSchemas.lists
@@ -40,7 +44,11 @@ export const update = forge
       query: z.object({
         id: z.string()
       }),
-      body: todoListSchemas.lists
+      body: todoListSchemas.lists.omit({
+        id: true,
+        collectionId: true,
+        collectionName: true
+      })
     },
     existenceCheck: {
       query: { id: 'lists' }
