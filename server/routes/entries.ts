@@ -12,8 +12,7 @@ const FILTERS: Record<string, any> = {
     {
       field: 'done',
       operator: '=',
-      value: false
-    }
+      value: false    }
   ],
   today: [
     {

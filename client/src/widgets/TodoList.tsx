@@ -26,7 +26,7 @@ function TodoListContent() {
   return (
     <WithQuery query={entriesQuery}>
       {entries => (
-        <Stack as="ul" flex="1" pr="md">
+        <Stack as="ul" flex="1">
           {entries.length > 0 ? (
             entries.map(entry => (
               <TaskItem
