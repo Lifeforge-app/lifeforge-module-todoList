@@ -1,86 +1,100 @@
+import { asc, count, eq } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import todoListSchemas from '../schema'
+import { todoEntries, todoPriorities } from '../schema.drizzle'
+
+const priorityDto = createSelectSchema(todoPriorities)
+
+const priorityAggregateDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  color: z.string(),
+  amount: z.number()
+})
+
+const priorityInputDto = z.object({
+  name: z.string(),
+  color: z.string()
+})
 
 export const list = forge
   .query({
     description: 'Get all todo priorities',
     output: {
-      OK: z.array(todoListSchemas.priorities_aggregated)
+      OK: z.array(priorityAggregateDto)
     }
   })
-  .callback(async ({ pb, response }) =>
-    response.ok(
-      await pb.getFullList.collection('priorities_aggregated').execute()
-    )
-  )
+  .callback(async ({ db, response }) => {
+    const rows = await db
+      .select({
+        id: todoPriorities.id,
+        name: todoPriorities.name,
+        color: todoPriorities.color,
+        amount: count(todoEntries.id)
+      })
+      .from(todoPriorities)
+      .leftJoin(todoEntries, eq(todoEntries.priority, todoPriorities.id))
+      .groupBy(todoPriorities.id)
+      .orderBy(asc(todoPriorities.name))
+
+    return response.ok(rows)
+  })
 
 export const create = forge
   .mutation({
     description: 'Create a new priority level',
     input: {
-      body: todoListSchemas.priorities.omit({
-        id: true,
-        collectionId: true,
-        collectionName: true
-      })
+      body: priorityInputDto
     },
     output: {
-      CREATED: todoListSchemas.priorities
+      CREATED: priorityDto
     }
   })
-  .callback(async ({ pb, body, response }) =>
-    response.created(
-      await pb.create.collection('priorities').data(body).execute()
-    )
-  )
+  .callback(async ({ db, body, response }) => {
+    const [created] = await db.insert(todoPriorities).values(body).returning()
+
+    return response.created(created)
+  })
 
 export const update = forge
   .mutation({
     description: 'Update priority details',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), todoPriorities)
       }),
-      body: todoListSchemas.priorities.omit({
-        id: true,
-        collectionId: true,
-        collectionName: true
-      })
-    },
-    existenceCheck: {
-      query: { id: 'priorities' }
+      body: priorityInputDto
     },
     output: {
-      OK: todoListSchemas.priorities,
-      NOT_FOUND: true
+      OK: priorityDto
     }
   })
-  .callback(async ({ pb, query: { id }, body, response }) =>
-    response.ok(
-      await pb.update.collection('priorities').id(id).data(body).execute()
-    )
-  )
+  .callback(async ({ db, query: { id }, body, response }) => {
+    const [updated] = await db
+      .update(todoPriorities)
+      .set(body)
+      .where(eq(todoPriorities.id, id))
+      .returning()
+
+    return response.ok(updated)
+  })
 
 export const remove = forge
   .mutation({
     description: 'Delete a priority level',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), todoPriorities)
       })
     },
-    existenceCheck: {
-      query: { id: 'priorities' }
-    },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    await pb.delete.collection('priorities').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    await db.delete(todoPriorities).where(eq(todoPriorities.id, id))
 
     return response.noContent()
   })

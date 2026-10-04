@@ -1,85 +1,103 @@
+import { asc, count, eq } from 'drizzle-orm'
+import { createSelectSchema } from 'drizzle-orm/zod'
 import z from 'zod'
 
 import forge from '../forge'
-import todoListSchemas from '../schema'
+import { todoEntries, todoLists } from '../schema.drizzle'
+
+const listDto = createSelectSchema(todoLists)
+
+const listAggregateDto = z.object({
+  id: z.string(),
+  name: z.string(),
+  color: z.string(),
+  icon: z.string(),
+  amount: z.number()
+})
+
+const listInputDto = z.object({
+  name: z.string(),
+  icon: z.string(),
+  color: z.string()
+})
 
 export const list = forge
   .query({
     description: 'Get all todo lists',
     output: {
-      OK: z.array(todoListSchemas.lists_aggregated)
+      OK: z.array(listAggregateDto)
     }
   })
-  .callback(async ({ pb, response }) =>
-    response.ok(
-      await pb.getFullList
-        .collection('lists_aggregated')
-        .sort(['name'])
-        .execute()
-    )
-  )
+  .callback(async ({ db, response }) => {
+    const rows = await db
+      .select({
+        id: todoLists.id,
+        name: todoLists.name,
+        color: todoLists.color,
+        icon: todoLists.icon,
+        amount: count(todoEntries.id)
+      })
+      .from(todoLists)
+      .leftJoin(todoEntries, eq(todoEntries.list, todoLists.id))
+      .groupBy(todoLists.id)
+      .orderBy(asc(todoLists.name))
+
+    return response.ok(rows)
+  })
 
 export const create = forge
   .mutation({
     description: 'Create a new todo list',
     input: {
-      body: todoListSchemas.lists.omit({
-        id: true,
-        collectionId: true,
-        collectionName: true
-      })
+      body: listInputDto
     },
     output: {
-      CREATED: todoListSchemas.lists
+      CREATED: listDto
     }
   })
-  .callback(async ({ pb, body, response }) =>
-    response.created(await pb.create.collection('lists').data(body).execute())
-  )
+  .callback(async ({ db, body, response }) => {
+    const [created] = await db.insert(todoLists).values(body).returning()
+
+    return response.created(created)
+  })
 
 export const update = forge
   .mutation({
     description: 'Update todo list details',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), todoLists)
       }),
-      body: todoListSchemas.lists.omit({
-        id: true,
-        collectionId: true,
-        collectionName: true
-      })
-    },
-    existenceCheck: {
-      query: { id: 'lists' }
+      body: listInputDto
     },
     output: {
-      OK: todoListSchemas.lists,
-      NOT_FOUND: true
+      OK: listDto
     }
   })
-  .callback(async ({ pb, query: { id }, body, response }) =>
-    response.ok(await pb.update.collection('lists').id(id).data(body).execute())
-  )
+  .callback(async ({ db, query: { id }, body, response }) => {
+    const [updated] = await db
+      .update(todoLists)
+      .set(body)
+      .where(eq(todoLists.id, id))
+      .returning()
+
+    return response.ok(updated)
+  })
 
 export const remove = forge
   .mutation({
     description: 'Delete a todo list',
     input: {
       query: z.object({
-        id: z.string()
+        id: forge.existsIn(z.string(), todoLists)
       })
     },
-    existenceCheck: {
-      query: { id: 'lists' }
-    },
     output: {
-      NO_CONTENT: true,
-      NOT_FOUND: true
+      NO_CONTENT: true
     }
   })
-  .callback(async ({ pb, query: { id }, response }) => {
-    await pb.delete.collection('lists').id(id).execute()
+  .callback(async ({ db, query: { id }, response }) => {
+    await db.delete(todoLists).where(eq(todoLists.id, id))
 
     return response.noContent()
   })

@@ -48,7 +48,7 @@ function TaskItem({
   return (
     <Card as="li" bg={bg} direction="row" gap="xl" justify="between">
       <Flex align="center" gap="md" minWidth="0" width="100%">
-        {typeof lists !== 'string' && entry.list !== '' && (
+        {typeof lists !== 'string' && entry.list && (
           <Box
             flexShrink="0"
             height="2.5rem"

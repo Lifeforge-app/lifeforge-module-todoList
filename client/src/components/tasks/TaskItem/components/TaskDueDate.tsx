@@ -10,12 +10,12 @@ dayjs.extend(relativeTime)
 function TaskDueDate({ entry }: { entry: TodoListEntry }) {
   return (
     <div>
-      {entry.done && entry.completed_at !== '' ? (
+      {entry.done && entry.completed_at ? (
         <Text color="muted" size="sm" whiteSpace="nowrap">
           Completed: {dayjs(entry.completed_at).fromNow()}
         </Text>
       ) : (
-        entry.due_date !== '' && (
+        entry.due_date && (
           <Text
             truncate
             color={

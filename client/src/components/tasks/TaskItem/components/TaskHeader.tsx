@@ -15,7 +15,7 @@ function TaskHeader({ entry }: { entry: TodoListEntry }) {
       <Text truncate weight="semibold">
         {entry.summary}
       </Text>
-      {entry.priority !== '' && (
+      {entry.priority && (
         <Box
           flexShrink="0"
           height="0.5rem"
